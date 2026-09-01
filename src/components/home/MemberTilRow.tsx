@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+  buildGithubAvatarUrl,
+  buildGithubHref,
+} from "@/src/lib/github";
 import type { MemberTilSummary } from "@/src/lib/til/types";
 
 import { ContributionGraph } from "./ContributionGraph";
@@ -22,14 +26,6 @@ function buildPostTilHref(github: string, slug: string) {
     .join("/");
 
   return `${buildMemberTilHref(github)}/${encodedSlug}`;
-}
-
-function buildGithubHref(github: string) {
-  return `https://github.com/${encodeURIComponent(github)}`;
-}
-
-function buildGithubAvatarUrl(github: string) {
-  return `${buildGithubHref(github)}.png?size=160`;
 }
 
 function formatPostCount(totalPosts: number) {

@@ -51,6 +51,23 @@
   text-transform: uppercase;
 }
 
+.memberSelectControl {
+  position: relative;
+}
+
+.memberAvatar {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0.6rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
 .memberSelect {
   width: 100%;
   min-height: 2.75rem;
@@ -58,7 +75,7 @@
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--surface);
-  padding: 0.65rem 0.75rem;
+  padding: 0.65rem 2rem 0.65rem 2.9rem;
   color: var(--person-name);
   font-size: 0.875rem;
   text-overflow: ellipsis;

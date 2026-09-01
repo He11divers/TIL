@@ -13,6 +13,7 @@ import {
 
 import type { TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
+import { buildGithubAvatarUrl } from "@/src/lib/github";
 
 import styles from "./TilSidebar.module.css";
 
@@ -182,6 +183,9 @@ export function TilSidebar({
   activeSlug,
 }: TilSidebarProps) {
   const router = useRouter();
+  const currentMember = members.find(
+    (member) => member.github === currentGithub,
+  );
   const activeAncestorPaths = useMemo(
     () => getActiveAncestorPaths(tree, activeSlug),
     [activeSlug, tree],
@@ -242,18 +246,30 @@ export function TilSidebar({
         <label className={styles.memberLabel} htmlFor="til-member">
           스터디원
         </label>
-        <select
-          className={styles.memberSelect}
-          id="til-member"
-          value={currentGithub}
-          onChange={handleMemberChange}
-        >
-          {members.map((member) => (
-            <option key={member.github} value={member.github}>
-              {member.name} ({member.github})
-            </option>
-          ))}
-        </select>
+        <div className={styles.memberSelectControl}>
+          {currentMember ? (
+            <Image
+              className={styles.memberAvatar}
+              src={buildGithubAvatarUrl(currentMember.github)}
+              alt=""
+              width={28}
+              height={28}
+              unoptimized
+            />
+          ) : null}
+          <select
+            className={styles.memberSelect}
+            id="til-member"
+            value={currentGithub}
+            onChange={handleMemberChange}
+          >
+            {members.map((member) => (
+              <option key={member.github} value={member.github}>
+                {member.name} ({member.github})
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <nav className={styles.explorer} aria-label="TIL files">
