@@ -94,7 +94,7 @@
 
 .emptyLabel {
   margin: 0;
-  color: var(--accent);
+  color: var(--person-name);
   font-size: 0.7rem;
   font-weight: 750;
   letter-spacing: 0.14em;

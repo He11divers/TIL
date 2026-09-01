@@ -96,16 +96,7 @@ export function MemberTilRow({
         />
       </div>
 
-      <section className={styles.recent} aria-labelledby={`recent-${summary.github}`}>
-        <header className={styles.recentHeader}>
-          <div>
-            <p className={styles.eyebrow}>Latest notes</p>
-            <h4 className={styles.recentTitle} id={`recent-${summary.github}`}>
-              Recent TIL
-            </h4>
-          </div>
-        </header>
-
+      <section className={styles.recent} aria-label="Recent TIL">
         {summary.recentPosts.length ? (
           <ol className={styles.recentList}>
             {summary.recentPosts.map((post) => (

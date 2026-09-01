@@ -81,10 +81,9 @@ export default async function TilPage({ params }: TilPageProps) {
             <div className={styles.emptyState}>
               <div className={styles.emptyContent}>
                 <p className={styles.emptyLabel}>{memberTree.name}</p>
-                <h1 className={styles.emptyTitle}>TIL을 선택해 주세요</h1>
+                <h1 className={styles.emptyTitle}>TIL</h1>
                 <p className={styles.emptyDescription}>
-                  왼쪽 파일 목록에서 읽을 기록을 선택하면 이곳에 내용이
-                  표시됩니다.
+                  왼쪽 파일 목록에서 읽을 내용을 선택하세요.
                 </p>
               </div>
             </div>

@@ -26,20 +26,12 @@ export function ContributionGraph({
   endDate,
 }: ContributionGraphProps) {
   const calendar = createContributionCalendar(contributions, endDate);
-  const headingId = `contribution-${github}`;
 
   return (
-    <section className={styles.section} aria-labelledby={headingId}>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.eyebrow}>Activity</p>
-          <h4 className={styles.title} id={headingId}>
-            TIL Contribution History
-          </h4>
-        </div>
-        <span className={styles.range}>최근 365일</span>
-      </header>
-
+    <section
+      className={styles.section}
+      aria-label={`${github} TIL contribution history`}
+    >
       <div className={styles.viewport} tabIndex={0}>
         <div className={styles.graphBody}>
           <div className={styles.weekdayLabels} aria-hidden="true">

@@ -224,7 +224,7 @@ export function TilSidebar({
 
       <div className={styles.memberSelector}>
         <label className={styles.memberLabel} htmlFor="til-member">
-          Member
+          스터디원
         </label>
         <select
           className={styles.memberSelect}
@@ -241,7 +241,7 @@ export function TilSidebar({
       </div>
 
       <nav className={styles.explorer} aria-label="TIL files">
-        <p className={styles.explorerLabel}>Files</p>
+        <p className={styles.explorerLabel}>목록</p>
         <div className={styles.treeViewport}>
           {tree.length ? (
             <TilTree

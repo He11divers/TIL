@@ -2,7 +2,7 @@
   display: grid;
   overflow: hidden;
   grid-template-areas: "profile contribution recent";
-  grid-template-columns: minmax(11.5rem, 0.7fr) minmax(30rem, 2fr) minmax(15rem, 1fr);
+  grid-template-columns: minmax(13rem, 0.8fr) minmax(27rem, 2fr) minmax(15rem, 1fr);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
@@ -12,22 +12,28 @@
 .contribution,
 .recent {
   min-width: 0;
-  padding: 1.75rem;
+  padding: 0.4rem 0.7rem;
 }
 
 .profile {
-  display: flex;
+  display: grid;
   grid-area: profile;
-  flex-direction: column;
-  align-items: flex-start;
+  grid-template-areas:
+    "avatar text"
+    "avatar link";
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: 0.25rem 0.7rem;
   border-right: 1px solid var(--border);
   background: var(--surface-subtle);
 }
 
 .avatarLink {
+  grid-area: avatar;
   display: block;
-  width: 5.5rem;
-  height: 5.5rem;
+  width: 3rem;
+  height: 3rem;
   overflow: hidden;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
@@ -57,23 +63,29 @@
 }
 
 .profileText {
-  margin-top: 1.2rem;
+  display: grid;
+  grid-area: text;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+  margin: 0;
 }
 
 .memberName {
+  grid-column: 1 / -1;
   margin: 0;
-  color: var(--foreground);
-  font-size: 1.2rem;
+  color: var(--person-name);
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.025em;
 }
 
 .githubLink {
   display: inline-block;
-  margin-top: 0.25rem;
+  margin: 0;
   color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   text-decoration: none;
 }
 
@@ -82,20 +94,21 @@
 }
 
 .postCount {
-  margin: 0.8rem 0 0;
+  margin: 0;
   color: var(--foreground-soft);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 650;
 }
 
 .tilLink {
+  grid-area: link;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  margin-top: auto;
-  padding-top: 1.5rem;
+  margin: 0;
+  padding: 0;
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -111,27 +124,6 @@
 
 .recent {
   grid-area: recent;
-}
-
-.recentHeader {
-  margin-bottom: 0.8rem;
-}
-
-.eyebrow {
-  margin: 0 0 0.35rem;
-  color: var(--foreground-muted);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.recentTitle {
-  margin: 0;
-  color: var(--foreground);
-  font-size: 1rem;
-  font-weight: 650;
-  letter-spacing: -0.015em;
 }
 
 .recentList {
@@ -150,10 +142,10 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
-  gap: 0.7rem;
-  margin: 0 -0.65rem;
+  gap: 0.4rem;
+  margin: 0 -0.4rem;
   border-radius: var(--radius-sm);
-  padding: 0.8rem 0.65rem;
+  padding: 0.2rem 0.4rem;
   color: inherit;
   text-decoration: none;
   transition: background-color 120ms ease;
@@ -164,10 +156,10 @@
 }
 
 .postDate {
-  padding-top: 0.14rem;
+  padding-top: 0.05rem;
   color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
 }
 
 .postCopy {
@@ -179,26 +171,19 @@
   display: block;
   overflow: hidden;
   color: var(--foreground-soft);
-  font-size: 0.84rem;
+  font-size: 0.72rem;
   font-weight: 650;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .postDescription {
-  display: -webkit-box;
-  overflow: hidden;
-  margin-top: 0.25rem;
-  color: var(--foreground-muted);
-  font-size: 0.72rem;
-  line-height: 1.45;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  display: none;
 }
 
 .postArrow {
   color: var(--foreground-muted);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   transition: color 150ms ease;
 }
 
@@ -208,9 +193,9 @@
 }
 
 .emptyPosts {
-  margin: 1.5rem 0 0;
+  margin: 0;
   color: var(--foreground-muted);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
 }
 
 @media (max-width: 70rem) {
@@ -241,7 +226,9 @@
   }
 
   .profile {
-    display: grid;
+    grid-template-areas:
+      "avatar text"
+      "link link";
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 1rem;
     border-right: 0;
@@ -250,12 +237,6 @@
   .profileText {
     align-self: center;
     margin-top: 0;
-  }
-
-  .tilLink {
-    grid-column: 1 / -1;
-    margin-top: 0;
-    padding-top: 1.25rem;
   }
 
   .recent {
