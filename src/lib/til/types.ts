@@ -24,3 +24,12 @@ export type ParsedTilMarkdown = {
   frontmatter: TilFrontmatter;
   content: string;
 };
+
+export type TilPost = {
+  github: string;
+  title: string;
+  description?: string;
+  date: string;
+  path: string;
+  slug: string;
+};
