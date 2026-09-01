@@ -1,7 +1,10 @@
+import Image from "next/image";
+
 import { MemberTilRow } from "@/src/components/home/MemberTilRow";
 import { getUtcCalendarDate } from "@/src/components/home/contribution-calendar";
 import { getAllMemberTilSummaries } from "@/src/lib/til/stats";
 
+import siteIcon from "./icon.png";
 import styles from "./page.module.css";
 
 export default async function Home() {
@@ -14,8 +17,16 @@ export default async function Home() {
         <header className={styles.hero}>
           <p className={styles.kicker}>Group study archive</p>
           <h1 className={styles.logo}>
-            <span>He11divers</span>
-            <strong>TIL</strong>
+            <Image
+              className={styles.logoImage}
+              src={siteIcon}
+              alt=""
+              priority
+            />
+            <span className={styles.logoText}>
+              <span>He11divers</span>
+              <strong>TIL</strong>
+            </span>
           </h1>
           <p className={styles.introduction}>
             당신은 오늘 개발한 내용을 기록하고 싶어진다.... 기록하고 싶어진다..

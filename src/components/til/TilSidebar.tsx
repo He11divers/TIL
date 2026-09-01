@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -11,6 +12,7 @@ import {
 } from "react";
 
 import type { TilTreeNode } from "@/src/lib/til/types";
+import siteIcon from "@/app/icon.png";
 
 import styles from "./TilSidebar.module.css";
 
@@ -220,7 +222,21 @@ export function TilSidebar({
 
   return (
     <aside className={styles.sidebar} aria-label="TIL navigation">
-      <p className={styles.sidebarTitle}>TIL</p>
+      <Link
+        className={styles.sidebarTitle}
+        href="/"
+        aria-label="He11divers TIL 홈"
+      >
+        <Image
+          className={styles.sidebarLogo}
+          src={siteIcon}
+          alt=""
+          width={40}
+          height={40}
+          priority
+        />
+        <span>He11divers TIL</span>
+      </Link>
 
       <div className={styles.memberSelector}>
         <label className={styles.memberLabel} htmlFor="til-member">

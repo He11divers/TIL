@@ -32,14 +32,26 @@
 
 .logo {
   display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.65rem;
   margin: 0.55rem 0 0;
   color: var(--foreground);
   font-size: clamp(2.25rem, 4.5vw, 3.75rem);
   font-weight: 720;
   letter-spacing: -0.065em;
   line-height: 1;
+}
+
+.logoImage {
+  width: clamp(3rem, 6vw, 4rem);
+  height: auto;
+  flex: none;
+}
+
+.logoText {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
 }
 
 .logo strong {
@@ -106,6 +118,10 @@
   }
 
   .logo {
+    gap: 0.5rem;
+  }
+
+  .logoText {
     gap: 0.45rem;
   }
 

@@ -12,14 +12,28 @@
 }
 
 .sidebarTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
   margin: 0;
-  border-left: 2px solid var(--accent);
-  padding-left: 0.65rem;
   color: var(--foreground);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 750;
   letter-spacing: -0.035em;
+  text-decoration: none;
+}
+
+.sidebarLogo {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.sidebarTitle:hover {
+  color: var(--accent);
 }
 
 .memberSelector {
