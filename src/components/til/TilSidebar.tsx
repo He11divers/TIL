@@ -158,13 +158,13 @@ function TilTree({
               className={`${styles.fileLink} ${isActive ? styles.activeFile : ""}`}
               style={getDepthStyle(depth)}
               href={buildPostHref(currentGithub, node.slug)}
-              title={node.name}
+              title={node.title}
               aria-current={isActive ? "page" : undefined}
             >
               <span className={styles.fileMarker} aria-hidden="true">
                 {isActive ? "●" : ""}
               </span>
-              <span className={styles.nodeName}>{node.name}</span>
+              <span className={styles.nodeName}>{node.title}</span>
             </Link>
           </li>
         );

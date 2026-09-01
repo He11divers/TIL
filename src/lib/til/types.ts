@@ -8,6 +8,7 @@ export type TilDirectoryNode = {
 export type TilFileNode = {
   type: "file";
   name: string;
+  title: string;
   path: string;
   slug: string;
 };

@@ -1,8 +1,9 @@
 import "server-only";
 
-import { readdir } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
+import { parseTilMarkdown } from "./parser";
 import type { TilTreeNode } from "./types";
 
 function compareNodes(left: TilTreeNode, right: TilTreeNode) {
@@ -39,9 +40,13 @@ async function scanDirectory(
     }
 
     if (entry.isFile() && path.extname(entry.name) === ".md") {
+      const source = await readFile(entryPath, "utf8");
+      const { frontmatter } = parseTilMarkdown(source, entryPath);
+
       nodes.push({
         type: "file",
         name: entry.name,
+        title: frontmatter.title,
         path: relativePath,
         slug: relativePath.slice(0, -path.extname(relativePath).length),
       });
