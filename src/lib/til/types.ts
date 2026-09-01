@@ -13,3 +13,14 @@ export type TilFileNode = {
 };
 
 export type TilTreeNode = TilDirectoryNode | TilFileNode;
+
+export type TilFrontmatter = {
+  title: string;
+  date: string;
+  description?: string;
+};
+
+export type ParsedTilMarkdown = {
+  frontmatter: TilFrontmatter;
+  content: string;
+};
