@@ -3,9 +3,9 @@
   overflow: hidden;
   grid-template-areas: "profile contribution recent";
   grid-template-columns: minmax(11.5rem, 0.7fr) minmax(30rem, 2fr) minmax(15rem, 1fr);
-  border: 1px solid #e4e4e7;
-  border-radius: 1rem;
-  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
 }
 
 .profile,
@@ -20,7 +20,8 @@
   grid-area: profile;
   flex-direction: column;
   align-items: flex-start;
-  border-right: 1px solid #e4e4e7;
+  border-right: 1px solid var(--border);
+  background: var(--surface-subtle);
 }
 
 .avatarLink {
@@ -28,16 +29,16 @@
   width: 5.5rem;
   height: 5.5rem;
   overflow: hidden;
-  border: 1px solid #e4e4e7;
-  border-radius: 1.1rem;
-  background: #f4f4f5;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-interactive);
   transition:
     border-color 150ms ease,
     transform 150ms ease;
 }
 
 .avatarLink:hover {
-  border-color: #a1a1aa;
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -45,9 +46,7 @@
 .githubLink:focus-visible,
 .tilLink:focus-visible,
 .postLink:focus-visible {
-  border-radius: 0.3rem;
-  outline: 2px solid #16a34a;
-  outline-offset: 0.2rem;
+  border-radius: var(--radius-sm);
 }
 
 .avatar {
@@ -63,7 +62,7 @@
 
 .memberName {
   margin: 0;
-  color: #18181b;
+  color: var(--foreground);
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -72,19 +71,19 @@
 .githubLink {
   display: inline-block;
   margin-top: 0.25rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.82rem;
   text-decoration: none;
 }
 
 .githubLink:hover {
-  color: #18181b;
+  color: var(--accent);
 }
 
 .postCount {
   margin: 0.8rem 0 0;
-  color: #3f3f46;
+  color: var(--foreground-soft);
   font-size: 0.82rem;
   font-weight: 650;
 }
@@ -95,19 +94,19 @@
   gap: 0.45rem;
   margin-top: auto;
   padding-top: 1.5rem;
-  color: #15803d;
+  color: var(--accent);
   font-size: 0.78rem;
   font-weight: 700;
   text-decoration: none;
 }
 
 .tilLink:hover {
-  color: #166534;
+  color: var(--accent-strong);
 }
 
 .contribution {
   grid-area: contribution;
-  border-right: 1px solid #e4e4e7;
+  border-right: 1px solid var(--border);
 }
 
 .recent {
@@ -120,7 +119,7 @@
 
 .eyebrow {
   margin: 0 0 0.35rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -129,7 +128,7 @@
 
 .recentTitle {
   margin: 0;
-  color: #18181b;
+  color: var(--foreground);
   font-size: 1rem;
   font-weight: 650;
   letter-spacing: -0.015em;
@@ -144,7 +143,7 @@
 }
 
 .recentList li + li {
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid var(--border);
 }
 
 .postLink {
@@ -152,14 +151,21 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
   gap: 0.7rem;
-  padding: 0.8rem 0;
+  margin: 0 -0.65rem;
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.65rem;
   color: inherit;
   text-decoration: none;
+  transition: background-color 120ms ease;
+}
+
+.postLink:hover {
+  background: var(--surface-interactive);
 }
 
 .postDate {
   padding-top: 0.14rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.68rem;
 }
@@ -172,7 +178,7 @@
 .postTitle {
   display: block;
   overflow: hidden;
-  color: #27272a;
+  color: var(--foreground-soft);
   font-size: 0.84rem;
   font-weight: 650;
   text-overflow: ellipsis;
@@ -183,7 +189,7 @@
   display: -webkit-box;
   overflow: hidden;
   margin-top: 0.25rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.72rem;
   line-height: 1.45;
   -webkit-box-orient: vertical;
@@ -191,19 +197,19 @@
 }
 
 .postArrow {
-  color: #a1a1aa;
+  color: var(--foreground-muted);
   font-size: 0.75rem;
   transition: color 150ms ease;
 }
 
 .postLink:hover .postTitle,
 .postLink:hover .postArrow {
-  color: #15803d;
+  color: var(--accent);
 }
 
 .emptyPosts {
   margin: 1.5rem 0 0;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.82rem;
 }
 
@@ -216,11 +222,11 @@
   }
 
   .profile {
-    border-right: 1px solid #e4e4e7;
+    border-right: 1px solid var(--border);
   }
 
   .contribution {
-    border-top: 1px solid #e4e4e7;
+    border-top: 1px solid var(--border);
     border-right: 0;
   }
 }
@@ -253,57 +259,6 @@
   }
 
   .recent {
-    border-top: 1px solid #e4e4e7;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .row {
-    border-color: #3f3f46;
-    background: #18181b;
-  }
-
-  .profile,
-  .contribution,
-  .recent,
-  .recentList li + li {
-    border-color: #3f3f46;
-  }
-
-  .avatarLink {
-    border-color: #52525b;
-    background: #27272a;
-  }
-
-  .avatarLink:hover {
-    border-color: #71717a;
-  }
-
-  .memberName,
-  .recentTitle,
-  .postTitle {
-    color: #f4f4f5;
-  }
-
-  .githubLink,
-  .eyebrow,
-  .postDate,
-  .postDescription,
-  .emptyPosts {
-    color: #a1a1aa;
-  }
-
-  .githubLink:hover {
-    color: #f4f4f5;
-  }
-
-  .postCount {
-    color: #d4d4d8;
-  }
-
-  .tilLink,
-  .postLink:hover .postTitle,
-  .postLink:hover .postArrow {
-    color: #4ade80;
+    border-top: 1px solid var(--border);
   }
 }

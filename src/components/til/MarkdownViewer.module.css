@@ -31,7 +31,7 @@
 
 .markdown h2 {
   padding-bottom: 0.35em;
-  border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-bottom: 1px solid var(--border);
   font-size: clamp(1.45rem, 3vw, 1.65rem);
 }
 
@@ -81,9 +81,8 @@
 
 .markdown blockquote {
   padding: 0.15rem 0 0.15rem 1rem;
-  border-left: 0.25rem solid
-    color-mix(in srgb, currentColor 28%, transparent);
-  color: color-mix(in srgb, currentColor 72%, transparent);
+  border-left: 0.25rem solid var(--accent);
+  color: var(--foreground-muted);
 }
 
 .markdown blockquote > :first-child {
@@ -100,9 +99,9 @@
 }
 
 .markdown :not(pre) > code {
-  border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
-  border-radius: 0.35rem;
-  background: color-mix(in srgb, currentColor 8%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-interactive);
   padding: 0.16em 0.38em;
   font-size: 0.875em;
   overflow-wrap: break-word;
@@ -111,9 +110,9 @@
 .markdown pre {
   max-width: 100%;
   overflow-x: auto;
-  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
-  border-radius: 0.75rem;
-  background: #f6f8fa;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--code-background);
   padding: 1rem 1.1rem;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
@@ -132,14 +131,23 @@
 }
 
 .markdown a {
+  color: var(--accent);
   font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
+.markdown a:hover {
+  color: var(--accent-strong);
+}
+
+.markdown a:focus-visible {
+  border-radius: 0.2rem;
+}
+
 .markdown hr {
   border: 0;
-  border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-top: 1px solid var(--border);
 }
 
 .markdown table {
@@ -154,13 +162,13 @@
 
 .markdown th,
 .markdown td {
-  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border: 1px solid var(--border);
   padding: 0.55rem 0.75rem;
   text-align: left;
 }
 
 .markdown th {
-  background: color-mix(in srgb, currentColor 5%, transparent);
+  background: var(--surface-interactive);
   font-weight: 650;
 }
 
@@ -169,7 +177,9 @@
   max-width: 100%;
   height: auto;
   margin: 1.5rem auto;
-  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
 }
 
 .markdown :global(.contains-task-list) {
@@ -241,11 +251,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .markdown pre {
-    border-color: #30363d;
-    background: #0d1117;
-  }
-
   .markdown :global(.hljs-comment),
   .markdown :global(.hljs-quote) {
     color: #8b949e;

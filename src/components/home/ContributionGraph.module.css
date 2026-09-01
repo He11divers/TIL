@@ -12,7 +12,7 @@
 
 .eyebrow {
   margin: 0 0 0.35rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -21,7 +21,7 @@
 
 .title {
   margin: 0;
-  color: #18181b;
+  color: var(--foreground);
   font-size: 1rem;
   font-weight: 650;
   letter-spacing: -0.015em;
@@ -29,7 +29,7 @@
 
 .range {
   flex: none;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.75rem;
 }
 
@@ -37,14 +37,12 @@
   max-width: 100%;
   overflow-x: auto;
   padding: 0.15rem 0 0.55rem;
-  scrollbar-color: #d4d4d8 transparent;
+  scrollbar-color: var(--border-strong) transparent;
   scrollbar-width: thin;
 }
 
 .viewport:focus-visible {
-  border-radius: 0.25rem;
-  outline: 2px solid #16a34a;
-  outline-offset: 0.25rem;
+  border-radius: var(--radius-sm);
 }
 
 .graphBody {
@@ -59,7 +57,7 @@
   width: 1.1rem;
   grid-template-rows: repeat(7, 0.7rem);
   gap: 0.2rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.58rem;
   line-height: 0.7rem;
 }
@@ -87,23 +85,23 @@
 
 .cell {
   border: 1px solid rgb(0 0 0 / 4%);
-  background: #e4e4e7;
+  background: var(--contribution-0);
 }
 
 .cell[data-level="1"] {
-  background: #9be9a8;
+  background: var(--contribution-1);
 }
 
 .cell[data-level="2"] {
-  background: #40c463;
+  background: var(--contribution-2);
 }
 
 .cell[data-level="3"] {
-  background: #30a14e;
+  background: var(--contribution-3);
 }
 
 .cell[data-level="4"] {
-  background: #216e39;
+  background: var(--contribution-4);
 }
 
 .legend {
@@ -112,44 +110,16 @@
   justify-content: flex-end;
   gap: 0.3rem;
   margin-top: 0.65rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.68rem;
 }
 
 @media (prefers-color-scheme: dark) {
-  .eyebrow,
-  .range,
-  .weekdayLabels,
-  .legend {
-    color: #a1a1aa;
-  }
-
-  .title {
-    color: #f4f4f5;
-  }
-
   .viewport {
-    scrollbar-color: #52525b transparent;
+    scrollbar-color: var(--border-strong) transparent;
   }
 
   .cell {
     border-color: rgb(255 255 255 / 5%);
-    background: #27272a;
-  }
-
-  .cell[data-level="1"] {
-    background: #0e4429;
-  }
-
-  .cell[data-level="2"] {
-    background: #006d32;
-  }
-
-  .cell[data-level="3"] {
-    background: #26a641;
-  }
-
-  .cell[data-level="4"] {
-    background: #39d353;
   }
 }

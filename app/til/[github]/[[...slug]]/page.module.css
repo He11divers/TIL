@@ -1,0 +1,149 @@
+.page {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.shell {
+  display: flex;
+  width: min(100%, 92rem);
+  min-width: 0;
+  min-height: 100dvh;
+  margin: 0 auto;
+  flex: 1;
+  flex-direction: column;
+  background: var(--surface);
+}
+
+.content {
+  min-width: 0;
+  flex: 1;
+  overflow-x: clip;
+}
+
+.article {
+  width: min(100%, 58rem);
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4.5rem) 6rem;
+}
+
+.postHeader {
+  max-width: 48rem;
+  padding-bottom: clamp(2rem, 4vw, 2.75rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.postLabel {
+  margin: 0 0 0.85rem;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.postTitle {
+  margin: 0;
+  color: var(--foreground);
+  font-size: clamp(2.15rem, 5vw, 3.5rem);
+  font-weight: 730;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.postDescription {
+  max-width: 42rem;
+  margin: 1.25rem 0 0;
+  color: var(--foreground-muted);
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.postDate {
+  display: block;
+  margin-top: 1.4rem;
+  color: var(--foreground-muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+}
+
+.markdownBody {
+  min-width: 0;
+  padding-top: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--foreground-soft);
+}
+
+.emptyState {
+  display: grid;
+  min-height: 30rem;
+  place-items: center;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.emptyContent {
+  max-width: 24rem;
+}
+
+.emptyLabel {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.emptyTitle {
+  margin: 0.8rem 0 0;
+  color: var(--foreground);
+  font-size: clamp(1.6rem, 4vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.emptyDescription {
+  margin: 0.85rem 0 0;
+  color: var(--foreground-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+@media (min-width: 56rem) {
+  .shell {
+    flex-direction: row;
+    align-items: flex-start;
+    border-right: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+  }
+
+  .emptyState {
+    min-height: 100dvh;
+  }
+}
+
+@media (max-width: 40rem) {
+  .article {
+    padding: 2.75rem 1.25rem 4rem;
+  }
+
+  .postTitle {
+    letter-spacing: -0.045em;
+  }
+
+  .postDescription {
+    margin-top: 1rem;
+  }
+
+  .markdownBody {
+    padding-top: 2.5rem;
+  }
+}

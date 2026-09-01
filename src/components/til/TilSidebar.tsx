@@ -102,7 +102,7 @@ function buildPostHref(github: string, slug: string) {
 
 function getDepthStyle(depth: number): CSSProperties {
   return {
-    "--til-tree-indent": `${depth + 0.5}rem`,
+    "--til-tree-indent": `${0.625 + depth * 0.875}rem`,
   } as CSSProperties;
 }
 
@@ -126,13 +126,14 @@ function TilTree({
                 className={styles.directoryButton}
                 style={getDepthStyle(depth)}
                 type="button"
+                title={node.name}
                 aria-expanded={isExpanded}
                 onClick={() => onToggleDirectory(node.path)}
               >
                 <span className={styles.chevron} aria-hidden="true">
                   {isExpanded ? "▾" : "▸"}
                 </span>
-                <span>{node.name}</span>
+                <span className={styles.nodeName}>{node.name}</span>
               </button>
 
               {isExpanded ? (
@@ -157,12 +158,13 @@ function TilTree({
               className={`${styles.fileLink} ${isActive ? styles.activeFile : ""}`}
               style={getDepthStyle(depth)}
               href={buildPostHref(currentGithub, node.slug)}
+              title={node.name}
               aria-current={isActive ? "page" : undefined}
             >
               <span className={styles.fileMarker} aria-hidden="true">
                 {isActive ? "●" : ""}
               </span>
-              <span>{node.name}</span>
+              <span className={styles.nodeName}>{node.name}</span>
             </Link>
           </li>
         );
@@ -218,9 +220,11 @@ export function TilSidebar({
 
   return (
     <aside className={styles.sidebar} aria-label="TIL navigation">
+      <p className={styles.sidebarTitle}>TIL</p>
+
       <div className={styles.memberSelector}>
         <label className={styles.memberLabel} htmlFor="til-member">
-          스터디원
+          Member
         </label>
         <select
           className={styles.memberSelect}
@@ -237,18 +241,20 @@ export function TilSidebar({
       </div>
 
       <nav className={styles.explorer} aria-label="TIL files">
-        <p className={styles.explorerLabel}>Explorer</p>
-        {tree.length ? (
-          <TilTree
-            nodes={tree}
-            currentGithub={currentGithub}
-            activeSlug={activeSlug}
-            expandedPaths={expandedPaths}
-            onToggleDirectory={toggleDirectory}
-          />
-        ) : (
-          <p className={styles.emptyTree}>아직 TIL이 없습니다.</p>
-        )}
+        <p className={styles.explorerLabel}>Files</p>
+        <div className={styles.treeViewport}>
+          {tree.length ? (
+            <TilTree
+              nodes={tree}
+              currentGithub={currentGithub}
+              activeSlug={activeSlug}
+              expandedPaths={expandedPaths}
+              onToggleDirectory={toggleDirectory}
+            />
+          ) : (
+            <p className={styles.emptyTree}>아직 TIL이 없습니다.</p>
+          )}
+        </div>
       </nav>
     </aside>
   );

@@ -1,12 +1,25 @@
 .sidebar {
   display: flex;
+  box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   flex: none;
   flex-direction: column;
-  gap: 1.5rem;
-  border-bottom: 1px solid #e4e4e7;
-  background: #fafafa;
-  padding: 1rem;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-subtle);
+  padding: 1.25rem;
+}
+
+.sidebarTitle {
+  margin: 0;
+  border-left: 2px solid var(--accent);
+  padding-left: 0.65rem;
+  color: var(--foreground);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: -0.035em;
 }
 
 .memberSelector {
@@ -17,70 +30,102 @@
 
 .memberLabel,
 .explorerLabel {
-  color: #71717a;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  color: var(--foreground-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .memberSelect {
   width: 100%;
-  border: 1px solid #d4d4d8;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  padding: 0.6rem 0.75rem;
-  color: #18181b;
+  min-height: 2.75rem;
+  min-width: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 0.65rem 0.75rem;
+  color: var(--foreground);
   font-size: 0.875rem;
+  text-overflow: ellipsis;
 }
 
 .memberSelect:focus-visible,
 .directoryButton:focus-visible,
 .fileLink:focus-visible {
-  outline: 2px solid #71717a;
   outline-offset: 2px;
 }
 
 .explorer {
+  display: flex;
   min-width: 0;
-  max-height: 18rem;
-  overflow: auto;
+  min-height: 0;
+  max-height: 22rem;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .explorerLabel {
-  margin-bottom: 0.5rem;
-  padding: 0 0.5rem;
+  margin: 0;
+  padding: 0 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.treeViewport {
+  min-width: 0;
+  min-height: 0;
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .treeList {
-  min-width: max-content;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
   list-style: none;
+}
+
+.treeList li {
+  min-width: 0;
 }
 
 .directoryButton,
 .fileLink {
   display: flex;
   width: 100%;
-  min-height: 2rem;
+  min-width: 0;
+  min-height: 2.15rem;
   align-items: center;
-  gap: 0.4rem;
-  border-radius: 0.4rem;
-  padding: 0.35rem 0.6rem 0.35rem var(--til-tree-indent);
-  color: #3f3f46;
+  gap: 0.45rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 0.4rem 0.65rem 0.4rem var(--til-tree-indent);
+  color: var(--foreground-soft);
   font-size: 0.875rem;
   line-height: 1.25rem;
+  text-decoration: none;
   text-align: left;
-  white-space: nowrap;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
 }
 
 .directoryButton {
+  font-weight: 620;
   cursor: pointer;
 }
 
 .directoryButton:hover,
 .fileLink:hover {
-  background: #e4e4e7;
-  color: #18181b;
+  background: var(--surface-interactive);
+  color: var(--foreground);
 }
 
 .chevron,
@@ -89,35 +134,49 @@
   width: 0.9rem;
   flex: none;
   justify-content: center;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.7rem;
 }
 
+.nodeName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .activeFile {
-  background: #e4e4e7;
-  color: #18181b;
+  box-shadow: inset 3px 0 var(--accent-bright);
+  background: var(--accent-subtle);
+  color: var(--foreground);
   font-weight: 600;
 }
 
 .activeFile .fileMarker {
-  color: #18181b;
+  color: var(--accent);
 }
 
 .emptyTree {
   padding: 0.5rem;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.875rem;
 }
 
 @media (min-width: 48rem) {
+  .explorer {
+    max-height: 24rem;
+  }
+}
+
+@media (min-width: 56rem) {
   .sidebar {
     position: sticky;
     top: 0;
-    width: 17rem;
-    height: 100vh;
-    border-right: 1px solid #e4e4e7;
+    width: 17.5rem;
+    height: 100dvh;
+    border-right: 1px solid var(--border);
     border-bottom: 0;
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1.25rem;
   }
 
   .explorer {
@@ -125,45 +184,10 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+@media (min-width: 56rem) and (max-width: 72rem) {
   .sidebar {
-    border-color: #27272a;
-    background: #18181b;
-  }
-
-  .memberLabel,
-  .explorerLabel,
-  .emptyTree,
-  .chevron,
-  .fileMarker {
-    color: #a1a1aa;
-  }
-
-  .memberSelect {
-    border-color: #3f3f46;
-    background: #27272a;
-    color: #f4f4f5;
-  }
-
-  .memberSelect:focus-visible,
-  .directoryButton:focus-visible,
-  .fileLink:focus-visible {
-    outline-color: #a1a1aa;
-  }
-
-  .directoryButton,
-  .fileLink {
-    color: #d4d4d8;
-  }
-
-  .directoryButton:hover,
-  .fileLink:hover,
-  .activeFile {
-    background: #3f3f46;
-    color: #fafafa;
-  }
-
-  .activeFile .fileMarker {
-    color: #fafafa;
+    width: 15.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 }

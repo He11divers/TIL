@@ -1,8 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  --background: #f4f4f5;
+  --surface: #ffffff;
+  --surface-subtle: #fafafa;
+  --surface-interactive: #f4f4f5;
+
+  --foreground: #18181b;
+  --foreground-soft: #3f3f46;
+  --foreground-muted: #71717a;
+
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+
+  --accent: #15803d;
+  --accent-strong: #166534;
+  --accent-bright: #16a34a;
+  --accent-subtle: #e7f7ec;
+
+  --contribution-0: #e4e4e7;
+  --contribution-1: #bbf7d0;
+  --contribution-2: #4ade80;
+  --contribution-3: #16a34a;
+  --contribution-4: #166534;
+
+  --code-background: #f6f8fa;
+
+  --radius-sm: 0.45rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
 }
 
 @theme inline {
@@ -14,13 +42,48 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+
+    --background: #09090b;
+    --surface: #18181b;
+    --surface-subtle: #111113;
+    --surface-interactive: #27272a;
+
+    --foreground: #f4f4f5;
+    --foreground-soft: #d4d4d8;
+    --foreground-muted: #a1a1aa;
+
+    --border: #3f3f46;
+    --border-strong: #52525b;
+
+    --accent: #4ade80;
+    --accent-strong: #86efac;
+    --accent-bright: #4ade80;
+    --accent-subtle: #263a2d;
+
+    --contribution-0: #27272a;
+    --contribution-1: #14532d;
+    --contribution-2: #15803d;
+    --contribution-3: #22c55e;
+    --contribution-4: #4ade80;
+
+    --code-background: #0d1117;
   }
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent-subtle);
+  color: var(--foreground);
+}
+
+:where(a, button, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
 }

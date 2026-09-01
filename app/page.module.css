@@ -1,7 +1,7 @@
 .page {
-  min-height: 100vh;
-  background: #f4f4f5;
-  color: #18181b;
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .container {
@@ -14,6 +14,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 46rem;
+  margin: 0 auto;
   padding: 6rem 1rem 5rem;
   text-align: center;
 }
@@ -21,7 +23,7 @@
 .kicker,
 .sectionKicker {
   margin: 0;
-  color: #15803d;
+  color: var(--accent);
   font-size: 0.72rem;
   font-weight: 750;
   letter-spacing: 0.16em;
@@ -33,7 +35,7 @@
   align-items: baseline;
   gap: 0.65rem;
   margin: 0.85rem 0 0;
-  color: #18181b;
+  color: var(--foreground);
   font-size: clamp(2.75rem, 6vw, 5rem);
   font-weight: 720;
   letter-spacing: -0.065em;
@@ -41,7 +43,11 @@
 }
 
 .logo strong {
-  color: #16a34a;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: var(--radius-sm);
+  background: var(--accent-subtle);
+  padding: 0.25em 0.4em 0.2em;
+  color: var(--accent);
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.42em;
   font-weight: 700;
@@ -51,7 +57,7 @@
 .introduction {
   max-width: 34rem;
   margin: 1.4rem 0 0;
-  color: #52525b;
+  color: var(--foreground-muted);
   font-size: 1rem;
   line-height: 1.7;
   word-break: keep-all;
@@ -71,14 +77,14 @@
 }
 
 .sectionKicker {
-  color: #71717a;
+  color: var(--foreground-muted);
   font-size: 0.66rem;
   letter-spacing: 0.14em;
 }
 
 .dashboardTitle {
   margin: 0.35rem 0 0;
-  color: #18181b;
+  color: var(--foreground);
   font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -86,7 +92,7 @@
 
 .memberCount {
   margin: 0;
-  color: #71717a;
+  color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.75rem;
 }
@@ -115,27 +121,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .page {
-    background: #09090b;
-    color: #f4f4f5;
-  }
-
-  .logo,
-  .dashboardTitle {
-    color: #f4f4f5;
-  }
-
-  .introduction {
-    color: #a1a1aa;
-  }
-
-  .kicker,
   .logo strong {
-    color: #4ade80;
-  }
-
-  .sectionKicker,
-  .memberCount {
-    color: #a1a1aa;
+    border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
   }
 }
