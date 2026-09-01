@@ -33,3 +33,7 @@ export type TilPost = {
   path: string;
   slug: string;
 };
+
+export type TilPostDetail = TilPost & {
+  content: string;
+};
