@@ -1,4 +1,5 @@
 import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 import styles from "./MarkdownViewer.module.css";
@@ -10,7 +11,11 @@ type MarkdownViewerProps = {
 export function MarkdownViewer({ content }: MarkdownViewerProps) {
   return (
     <div className={styles.markdown}>
-      <Markdown remarkPlugins={[remarkGfm]} skipHtml>
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[[rehypeHighlight, { detect: false }]]}
+        skipHtml
+      >
         {content}
       </Markdown>
     </div>
