@@ -1,0 +1,309 @@
+.row {
+  display: grid;
+  overflow: hidden;
+  grid-template-areas: "profile contribution recent";
+  grid-template-columns: minmax(11.5rem, 0.7fr) minmax(30rem, 2fr) minmax(15rem, 1fr);
+  border: 1px solid #e4e4e7;
+  border-radius: 1rem;
+  background: #ffffff;
+}
+
+.profile,
+.contribution,
+.recent {
+  min-width: 0;
+  padding: 1.75rem;
+}
+
+.profile {
+  display: flex;
+  grid-area: profile;
+  flex-direction: column;
+  align-items: flex-start;
+  border-right: 1px solid #e4e4e7;
+}
+
+.avatarLink {
+  display: block;
+  width: 5.5rem;
+  height: 5.5rem;
+  overflow: hidden;
+  border: 1px solid #e4e4e7;
+  border-radius: 1.1rem;
+  background: #f4f4f5;
+  transition:
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.avatarLink:hover {
+  border-color: #a1a1aa;
+  transform: translateY(-1px);
+}
+
+.avatarLink:focus-visible,
+.githubLink:focus-visible,
+.tilLink:focus-visible,
+.postLink:focus-visible {
+  border-radius: 0.3rem;
+  outline: 2px solid #16a34a;
+  outline-offset: 0.2rem;
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileText {
+  margin-top: 1.2rem;
+}
+
+.memberName {
+  margin: 0;
+  color: #18181b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.githubLink {
+  display: inline-block;
+  margin-top: 0.25rem;
+  color: #71717a;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.githubLink:hover {
+  color: #18181b;
+}
+
+.postCount {
+  margin: 0.8rem 0 0;
+  color: #3f3f46;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.tilLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: #15803d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tilLink:hover {
+  color: #166534;
+}
+
+.contribution {
+  grid-area: contribution;
+  border-right: 1px solid #e4e4e7;
+}
+
+.recent {
+  grid-area: recent;
+}
+
+.recentHeader {
+  margin-bottom: 0.8rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: #71717a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.recentTitle {
+  margin: 0;
+  color: #18181b;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.recentList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recentList li + li {
+  border-top: 1px solid #f4f4f5;
+}
+
+.postLink {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.7rem;
+  padding: 0.8rem 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.postDate {
+  padding-top: 0.14rem;
+  color: #71717a;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+}
+
+.postCopy {
+  display: block;
+  min-width: 0;
+}
+
+.postTitle {
+  display: block;
+  overflow: hidden;
+  color: #27272a;
+  font-size: 0.84rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.postDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  color: #71717a;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.postArrow {
+  color: #a1a1aa;
+  font-size: 0.75rem;
+  transition: color 150ms ease;
+}
+
+.postLink:hover .postTitle,
+.postLink:hover .postArrow {
+  color: #15803d;
+}
+
+.emptyPosts {
+  margin: 1.5rem 0 0;
+  color: #71717a;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 70rem) {
+  .row {
+    grid-template-areas:
+      "profile recent"
+      "contribution contribution";
+    grid-template-columns: minmax(13rem, 0.75fr) minmax(18rem, 1.25fr);
+  }
+
+  .profile {
+    border-right: 1px solid #e4e4e7;
+  }
+
+  .contribution {
+    border-top: 1px solid #e4e4e7;
+    border-right: 0;
+  }
+}
+
+@media (max-width: 42rem) {
+  .row {
+    grid-template-areas:
+      "profile"
+      "contribution"
+      "recent";
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 1rem;
+    border-right: 0;
+  }
+
+  .profileText {
+    align-self: center;
+    margin-top: 0;
+  }
+
+  .tilLink {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    padding-top: 1.25rem;
+  }
+
+  .recent {
+    border-top: 1px solid #e4e4e7;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .row {
+    border-color: #3f3f46;
+    background: #18181b;
+  }
+
+  .profile,
+  .contribution,
+  .recent,
+  .recentList li + li {
+    border-color: #3f3f46;
+  }
+
+  .avatarLink {
+    border-color: #52525b;
+    background: #27272a;
+  }
+
+  .avatarLink:hover {
+    border-color: #71717a;
+  }
+
+  .memberName,
+  .recentTitle,
+  .postTitle {
+    color: #f4f4f5;
+  }
+
+  .githubLink,
+  .eyebrow,
+  .postDate,
+  .postDescription,
+  .emptyPosts {
+    color: #a1a1aa;
+  }
+
+  .githubLink:hover {
+    color: #f4f4f5;
+  }
+
+  .postCount {
+    color: #d4d4d8;
+  }
+
+  .tilLink,
+  .postLink:hover .postTitle,
+  .postLink:hover .postArrow {
+    color: #4ade80;
+  }
+}

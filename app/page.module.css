@@ -1,0 +1,141 @@
+.page {
+  min-height: 100vh;
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.container {
+  width: min(100%, 88rem);
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6rem 1rem 5rem;
+  text-align: center;
+}
+
+.kicker,
+.sectionKicker {
+  margin: 0;
+  color: #15803d;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0.85rem 0 0;
+  color: #18181b;
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 720;
+  letter-spacing: -0.065em;
+  line-height: 1;
+}
+
+.logo strong {
+  color: #16a34a;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.42em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.introduction {
+  max-width: 34rem;
+  margin: 1.4rem 0 0;
+  color: #52525b;
+  font-size: 1rem;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.dashboard {
+  width: 100%;
+}
+
+.dashboardHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding: 0 0.25rem;
+}
+
+.sectionKicker {
+  color: #71717a;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+
+.dashboardTitle {
+  margin: 0.35rem 0 0;
+  color: #18181b;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.memberCount {
+  margin: 0;
+  color: #71717a;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+}
+
+.memberList {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 48rem) {
+  .container {
+    padding: 0 1rem 3rem;
+  }
+
+  .hero {
+    padding: 4.5rem 0.5rem 3.5rem;
+  }
+
+  .logo {
+    gap: 0.45rem;
+  }
+
+  .introduction {
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    background: #09090b;
+    color: #f4f4f5;
+  }
+
+  .logo,
+  .dashboardTitle {
+    color: #f4f4f5;
+  }
+
+  .introduction {
+    color: #a1a1aa;
+  }
+
+  .kicker,
+  .logo strong {
+    color: #4ade80;
+  }
+
+  .sectionKicker,
+  .memberCount {
+    color: #a1a1aa;
+  }
+}
