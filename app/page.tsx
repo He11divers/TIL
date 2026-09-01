@@ -18,7 +18,7 @@ export default async function Home() {
             <strong>TIL</strong>
           </h1>
           <p className={styles.introduction}>
-            매일의 배움을 기록하고, 함께 쌓아가는 개발 스터디 아카이브
+            당신은 오늘 개발한 내용을 기록하고 싶어진다.... 기록하고 싶어진다..
           </p>
         </header>
 

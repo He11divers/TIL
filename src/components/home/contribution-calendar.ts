@@ -12,6 +12,12 @@ export type ContributionCalendarCell = {
 
 export type ContributionCalendarSlot = ContributionCalendarCell | null;
 
+export type ContributionSummary = {
+  weeklyCount: number;
+  streakDays: number;
+  latestDate: string | null;
+};
+
 function parseCalendarDate(date: string) {
   const [year, month, day] = date.split("-").map(Number);
 
@@ -32,6 +38,45 @@ function addCalendarDays(date: string, days: number) {
   value.setTime(value.getTime() + days * DAY_IN_MILLISECONDS);
 
   return formatCalendarDate(value);
+}
+
+export function createContributionSummary(
+  contributions: readonly TilContributionDay[],
+  endDate: string,
+): ContributionSummary {
+  const countsByDate = new Map(
+    contributions.map(({ date, count }) => [date, count]),
+  );
+  const daysSinceMonday = (parseCalendarDate(endDate).getUTCDay() + 6) % 7;
+  const weekStart = addCalendarDays(endDate, -daysSinceMonday);
+  const weeklyCount = contributions.reduce((total, contribution) => {
+    if (contribution.date < weekStart || contribution.date > endDate) {
+      return total;
+    }
+
+    return total + contribution.count;
+  }, 0);
+  const latestDate = contributions.reduce<string | null>((latest, item) => {
+    if (item.date > endDate || (latest && item.date <= latest)) {
+      return latest;
+    }
+
+    return item.date;
+  }, null);
+  const yesterday = addCalendarDays(endDate, -1);
+  let streakDate = (countsByDate.get(endDate) ?? 0) > 0 ? endDate : yesterday;
+  let streakDays = 0;
+
+  while ((countsByDate.get(streakDate) ?? 0) > 0) {
+    streakDays += 1;
+    streakDate = addCalendarDays(streakDate, -1);
+  }
+
+  return {
+    weeklyCount,
+    streakDays,
+    latestDate,
+  };
 }
 
 export function getUtcCalendarDate(date = new Date()) {

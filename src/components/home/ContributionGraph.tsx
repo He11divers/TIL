@@ -2,6 +2,7 @@ import type { TilContributionDay } from "@/src/lib/til/types";
 
 import {
   createContributionCalendar,
+  createContributionSummary,
   type ContributionCalendarCell,
 } from "./contribution-calendar";
 import styles from "./ContributionGraph.module.css";
@@ -20,73 +21,95 @@ function getContributionLabel({ date, count }: ContributionCalendarCell) {
     : `${date}: ${count} TIL${count === 1 ? "" : "s"}`;
 }
 
+function formatSummaryDate(date: string | null) {
+  return date ? date.slice(5).replace("-", ".") : "—";
+}
+
 export function ContributionGraph({
   github,
   contributions,
   endDate,
 }: ContributionGraphProps) {
   const calendar = createContributionCalendar(contributions, endDate);
+  const summary = createContributionSummary(contributions, endDate);
 
   return (
     <section
       className={styles.section}
       aria-label={`${github} TIL contribution history`}
     >
-      <div className={styles.viewport} tabIndex={0}>
-        <div className={styles.graphBody}>
-          <div className={styles.weekdayLabels} aria-hidden="true">
-            {WEEKDAY_LABELS.map((label, index) => (
-              <span key={`${label}:${index}`}>{label}</span>
-            ))}
-          </div>
+      <div className={styles.history}>
+        <div className={styles.viewport} tabIndex={0}>
+          <div className={styles.graphBody}>
+            <div className={styles.weekdayLabels} aria-hidden="true">
+              {WEEKDAY_LABELS.map((label, index) => (
+                <span key={`${label}:${index}`}>{label}</span>
+              ))}
+            </div>
 
-          <div
-            className={styles.calendar}
-            role="grid"
-            aria-label={`${github} TIL contributions for the last 365 days`}
-          >
-            {calendar.map((cell, index) => {
-              if (!cell) {
+            <div
+              className={styles.calendar}
+              role="grid"
+              aria-label={`${github} TIL contributions for the last 365 days`}
+            >
+              {calendar.map((cell, index) => {
+                if (!cell) {
+                  return (
+                    <span
+                      className={styles.placeholder}
+                      key={`empty:${index}`}
+                      aria-hidden="true"
+                    />
+                  );
+                }
+
+                const label = getContributionLabel(cell);
+
                 return (
                   <span
-                    className={styles.placeholder}
-                    key={`empty:${index}`}
-                    aria-hidden="true"
+                    className={styles.cell}
+                    data-date={cell.date}
+                    data-count={cell.count}
+                    data-level={cell.level}
+                    key={cell.date}
+                    role="gridcell"
+                    title={label}
+                    aria-label={label}
                   />
                 );
-              }
-
-              const label = getContributionLabel(cell);
-
-              return (
-                <span
-                  className={styles.cell}
-                  data-date={cell.date}
-                  data-count={cell.count}
-                  data-level={cell.level}
-                  key={cell.date}
-                  role="gridcell"
-                  title={label}
-                  aria-label={label}
-                />
-              );
-            })}
+              })}
+            </div>
           </div>
+        </div>
+
+        <div className={styles.legend} aria-label="Contribution intensity">
+          <span>Less</span>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <span
+              className={styles.cell}
+              data-level={level}
+              key={level}
+              aria-hidden="true"
+            />
+          ))}
+          <span>More</span>
         </div>
       </div>
 
-      <div className={styles.legend} aria-label="Contribution intensity">
-        <span>Less</span>
-        {[0, 1, 2, 3, 4].map((level) => (
-          <span
-            className={styles.cell}
-            data-level={level}
-            key={level}
-            aria-hidden="true"
-          />
-        ))}
-        <span>More</span>
-      </div>
+      <dl className={styles.summary} aria-label="TIL activity summary">
+        <div className={styles.summaryItem}>
+          <dt>이번 주</dt>
+          <dd>{summary.weeklyCount} TIL</dd>
+        </div>
+        <div className={styles.summaryItem}>
+          <dt>연속 기록</dt>
+          <dd>{summary.streakDays}일</dd>
+        </div>
+        <div className={styles.summaryItem}>
+          <dt>최근 작성</dt>
+          <dd>{formatSummaryDate(summary.latestDate)}</dd>
+        </div>
+      </dl>
     </section>
   );
 }
