@@ -61,6 +61,7 @@ export function MemberTilRow({
             alt={`${summary.name} GitHub profile image`}
             width={88}
             height={88}
+            unoptimized
           />
         </a>
 
