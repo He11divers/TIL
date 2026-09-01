@@ -71,7 +71,11 @@ export default async function TilPage({ params }: TilPageProps) {
               </header>
 
               <div className="pt-8 text-zinc-800 dark:text-zinc-200">
-                <MarkdownViewer content={post.content} />
+                <MarkdownViewer
+                  content={post.content}
+                  github={post.github}
+                  postPath={post.path}
+                />
               </div>
             </article>
           ) : (
