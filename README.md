@@ -23,16 +23,17 @@ git pull origin main
 TIL은 다음 디렉토리에 작성합니다.
 
 ```text
-raw/r3j0/
+raw/{내-github-id}/
 ```
 
-> 반드시 자신의 `raw/{내 GitHub username}/` 아래에서만 글을 작성하고, 다른 스터디원의 디렉토리는 임의로 수정하지 않습니다. 아직 `study.config.ts`에 등록되지 않은 새 스터디원은 운영자에게 등록을 요청해 주세요.
+> 반드시 자신의 `raw/{내-github-id}/` 아래에서만 글을 작성하고, 다른 스터디원의 디렉토리는 임의로 수정하지 않습니다. 아직 `study.config.ts`에 등록되지 않은 새 스터디원은 운영자에게 등록을 요청해 주세요.
 
 자신의 디렉토리 아래에서는 주제에 맞게 폴더와 파일을 자유롭게 구성할 수 있습니다.
 
 ```text
+Ex.
 raw/
-└── r3j0/
+└── r3j0}/
     ├── algorithm/
     │   ├── bfs.md
     │   └── graph/
