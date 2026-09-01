@@ -1,0 +1,132 @@
+.markdown {
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin: 2em 0 0.75em;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.markdown h1 {
+  font-size: 2rem;
+}
+
+.markdown h2 {
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  font-size: 1.5rem;
+}
+
+.markdown h3 {
+  font-size: 1.25rem;
+}
+
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote,
+.markdown pre,
+.markdown table,
+.markdown hr {
+  margin: 1.25em 0;
+}
+
+.markdown ul,
+.markdown ol {
+  padding-left: 1.5rem;
+}
+
+.markdown ul {
+  list-style: disc;
+}
+
+.markdown ol {
+  list-style: decimal;
+}
+
+.markdown li + li {
+  margin-top: 0.35em;
+}
+
+.markdown blockquote {
+  padding-left: 1rem;
+  border-left: 3px solid color-mix(in srgb, currentColor 30%, transparent);
+  color: color-mix(in srgb, currentColor 72%, transparent);
+}
+
+.markdown code {
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  padding: 0.15em 0.35em;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.9em;
+}
+
+.markdown pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, currentColor 7%, transparent);
+  padding: 1rem;
+}
+
+.markdown pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.markdown a {
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.markdown hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.markdown table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+
+.markdown th {
+  background: color-mix(in srgb, currentColor 5%, transparent);
+  font-weight: 600;
+}
+
+.markdown :global(.contains-task-list) {
+  padding-left: 0;
+  list-style: none;
+}
+
+.markdown :global(.task-list-item) {
+  list-style: none;
+}
+
+.markdown input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
