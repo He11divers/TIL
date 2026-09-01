@@ -37,3 +37,20 @@ export type TilPost = {
 export type TilPostDetail = TilPost & {
   content: string;
 };
+
+export type TilContributionDay = {
+  date: string;
+  count: number;
+};
+
+export type MemberTilSummary = {
+  github: string;
+  name: string;
+  totalPosts: number;
+  recentPosts: TilPost[];
+  contributions: TilContributionDay[];
+};
+
+export type TilSummaryOptions = {
+  recentPostLimit?: number;
+};
