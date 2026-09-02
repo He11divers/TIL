@@ -1,9 +1,13 @@
+import "server-only";
+
 import Markdown, {
   defaultUrlTransform,
   type UrlTransform,
 } from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import rehypeMathjax from "rehype-mathjax";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 
 import { resolveTilImageSource } from "@/src/lib/til/assets";
 
@@ -35,8 +39,11 @@ export function MarkdownViewer({
   return (
     <div className={styles.markdown}>
       <Markdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[[rehypeHighlight, { detect: false }]]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[
+          [rehypeHighlight, { detect: false, plainText: ["math"] }],
+          rehypeMathjax,
+        ]}
         skipHtml
         urlTransform={createUrlTransform(github, postPath)}
       >
