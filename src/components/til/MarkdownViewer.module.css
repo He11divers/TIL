@@ -195,6 +195,18 @@
   margin-right: 0.5rem;
 }
 
+.markdown :global(mjx-container[jax="SVG"] > svg) {
+  display: inline;
+}
+
+.markdown :global(mjx-container[display="true"]) {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 .markdown :global(.hljs-comment),
 .markdown :global(.hljs-quote) {
   color: #6e7781;
