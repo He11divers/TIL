@@ -8,8 +8,7 @@ export const study = {
     {
       name: "박정근",
       github: "r3j0",
-    },
-    {
+    },{
       name: "이동현",
       github: "Dong-H-LEE",
     },{
@@ -21,6 +20,9 @@ export const study = {
     },{
       name: "이승종",
       github: "codingslave99",
+    },{
+      name: "오원진",
+      github: "ohwj00",
     },
   ],
 } satisfies {
