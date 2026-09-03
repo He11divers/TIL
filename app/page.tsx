@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { MemberTilRow } from "@/src/components/home/MemberTilRow";
-import { getUtcCalendarDate } from "@/src/components/home/contribution-calendar";
 import { getAllMemberTilSummaries } from "@/src/lib/til/stats";
 
 import siteIcon from "./icon.png";
@@ -9,7 +8,6 @@ import styles from "./page.module.css";
 
 export default async function Home() {
   const summaries = await getAllMemberTilSummaries({ recentPostLimit: 3 });
-  const calendarEndDate = getUtcCalendarDate();
 
   return (
     <main className={styles.page}>
@@ -48,11 +46,7 @@ export default async function Home() {
 
           <div className={styles.memberList}>
             {summaries.map((summary) => (
-              <MemberTilRow
-                summary={summary}
-                calendarEndDate={calendarEndDate}
-                key={summary.github}
-              />
+              <MemberTilRow summary={summary} key={summary.github} />
             ))}
           </div>
         </section>

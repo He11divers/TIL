@@ -14,6 +14,7 @@ import {
 
 import type { TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
+import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
 import { buildGithubAvatarUrl } from "@/src/lib/github";
 import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
 
@@ -29,14 +30,13 @@ type TilSidebarProps = {
   currentGithub: string;
   tree: TilTreeNode[];
   activeSlug?: string;
-  today: string;
 };
 
 type TilTreeProps = {
   nodes: TilTreeNode[];
   currentGithub: string;
   activeSlug?: string;
-  today: string;
+  today: string | null;
   expandedPaths: Set<string>;
   onToggleDirectory: (path: string) => void;
   onSelectFile: () => void;
@@ -172,7 +172,7 @@ function TilTree({
               <time
                 className={styles.fileDate}
                 dateTime={node.date}
-                data-recency={getTilDateRecency(node.date, today)}
+                data-recency={today ? getTilDateRecency(node.date, today) : 0}
                 title={node.date}
               >
                 {formatTilDate(node.date)}
@@ -191,8 +191,8 @@ export function TilSidebar({
   currentGithub,
   tree,
   activeSlug,
-  today,
 }: TilSidebarProps) {
+  const today = useLocalCalendarDate();
   const router = useRouter();
   const currentMember = members.find(
     (member) => member.github === currentGithub,

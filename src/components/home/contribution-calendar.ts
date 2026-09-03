@@ -79,10 +79,6 @@ export function createContributionSummary(
   };
 }
 
-export function getUtcCalendarDate(date = new Date()) {
-  return formatCalendarDate(date);
-}
-
 export function getContributionLevel(count: number): ContributionLevel {
   if (count <= 0) {
     return 0;

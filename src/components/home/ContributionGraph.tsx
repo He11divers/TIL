@@ -1,3 +1,6 @@
+"use client";
+
+import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
 import type { TilContributionDay } from "@/src/lib/til/types";
 
 import {
@@ -10,10 +13,11 @@ import styles from "./ContributionGraph.module.css";
 type ContributionGraphProps = {
   github: string;
   contributions: TilContributionDay[];
-  endDate: string;
 };
 
 const WEEKDAY_LABELS = ["", "월", "", "수", "", "금", ""];
+// Reserve the 53-week grid until the browser's date is available.
+const PENDING_CALENDAR = Array<null>(53 * 7).fill(null);
 
 function getContributionLabel({ date, count }: ContributionCalendarCell) {
   return count === 0
@@ -28,15 +32,20 @@ function formatSummaryDate(date: string | null) {
 export function ContributionGraph({
   github,
   contributions,
-  endDate,
 }: ContributionGraphProps) {
-  const calendar = createContributionCalendar(contributions, endDate);
-  const summary = createContributionSummary(contributions, endDate);
+  const endDate = useLocalCalendarDate();
+  const calendar = endDate
+    ? createContributionCalendar(contributions, endDate)
+    : PENDING_CALENDAR;
+  const summary = endDate
+    ? createContributionSummary(contributions, endDate)
+    : null;
 
   return (
     <section
       className={styles.section}
       aria-label={`${github} TIL contribution history`}
+      aria-busy={!endDate}
     >
       <div className={styles.history}>
         <div className={styles.viewport} tabIndex={0}>
@@ -99,15 +108,15 @@ export function ContributionGraph({
       <dl className={styles.summary} aria-label="TIL activity summary">
         <div className={styles.summaryItem}>
           <dt>이번 주</dt>
-          <dd>{summary.weeklyCount} TIL</dd>
+          <dd>{summary ? `${summary.weeklyCount} TIL` : "—"}</dd>
         </div>
         <div className={styles.summaryItem}>
           <dt>연속 기록</dt>
-          <dd>{summary.streakDays}일</dd>
+          <dd>{summary ? `${summary.streakDays}일` : "—"}</dd>
         </div>
         <div className={styles.summaryItem}>
           <dt>최근 작성</dt>
-          <dd>{formatSummaryDate(summary.latestDate)}</dd>
+          <dd>{formatSummaryDate(summary?.latestDate ?? null)}</dd>
         </div>
       </dl>
     </section>

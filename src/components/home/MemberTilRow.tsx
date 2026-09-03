@@ -12,7 +12,6 @@ import styles from "./MemberTilRow.module.css";
 
 type MemberTilRowProps = {
   summary: MemberTilSummary;
-  calendarEndDate: string;
 };
 
 function buildMemberTilHref(github: string) {
@@ -32,10 +31,7 @@ function formatPostCount(totalPosts: number) {
   return `${totalPosts} TIL${totalPosts === 1 ? "" : "s"}`;
 }
 
-export function MemberTilRow({
-  summary,
-  calendarEndDate,
-}: MemberTilRowProps) {
+export function MemberTilRow({ summary }: MemberTilRowProps) {
   const githubHref = buildGithubHref(summary.github);
 
   return (
@@ -89,7 +85,6 @@ export function MemberTilRow({
         <ContributionGraph
           github={summary.github}
           contributions={summary.contributions}
-          endDate={calendarEndDate}
         />
       </div>
 
