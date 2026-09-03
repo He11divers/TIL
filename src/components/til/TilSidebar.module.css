@@ -82,19 +82,122 @@
 }
 
 .memberSelect:focus-visible,
+.explorerTrigger:focus-visible,
+.dialogClose:focus-visible,
 .directoryButton:focus-visible,
 .fileLink:focus-visible {
   outline-offset: 2px;
 }
 
 .explorer {
-  display: flex;
+  display: none;
   min-width: 0;
   min-height: 0;
-  max-height: 22rem;
   flex: 1;
   flex-direction: column;
   overflow: hidden;
+}
+
+.mobileExplorer {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobileExplorer p {
+  margin: 0;
+}
+
+.explorerTrigger {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 0.65rem 0.85rem;
+  color: var(--foreground-soft);
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.explorerTrigger:hover {
+  border-color: var(--foreground-muted);
+}
+
+:global(body):has(.explorerDialog[open]) {
+  overflow: hidden;
+}
+
+.explorerDialog {
+  position: fixed;
+  inset: 0;
+  width: min(32rem, calc(100% - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: 0;
+  color: var(--foreground);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.25);
+}
+
+.explorerDialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.dialogContent {
+  display: flex;
+  max-height: calc(100dvh - 2rem - 2px);
+  flex-direction: column;
+  padding: 0.75rem;
+}
+
+.dialogHeader {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0 0 0.5rem 0.5rem;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.dialogClose {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--foreground-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.dialogClose:hover {
+  background: var(--surface-interactive);
+  color: var(--foreground);
+}
+
+.dialogContent .treeViewport {
+  max-height: 32rem;
 }
 
 .explorerLabel {
@@ -130,17 +233,17 @@
   display: flex;
   width: 100%;
   min-width: 0;
-  min-height: 2.15rem;
+  min-height: 1.75rem;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.375rem;
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-sm);
   background: transparent;
-  padding: 0.4rem 0.65rem 0.4rem var(--til-tree-indent);
+  padding: 0.25rem 0.65rem 0.25rem var(--til-tree-indent);
   color: var(--foreground-soft);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
   text-decoration: none;
   text-align: left;
   transition:
@@ -194,12 +297,6 @@
   font-size: 0.875rem;
 }
 
-@media (min-width: 48rem) {
-  .explorer {
-    max-height: 24rem;
-  }
-}
-
 @media (min-width: 56rem) {
   .sidebar {
     position: sticky;
@@ -212,7 +309,11 @@
   }
 
   .explorer {
-    max-height: none;
+    display: flex;
+  }
+
+  .mobileExplorer {
+    display: none;
   }
 }
 
