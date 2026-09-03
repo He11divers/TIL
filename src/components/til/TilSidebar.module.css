@@ -280,6 +280,54 @@
   white-space: nowrap;
 }
 
+.fileDate {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.25rem;
+  background: var(--surface-subtle);
+  padding: 0 0.25rem;
+  color: var(--foreground-muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+  line-height: 1rem;
+  white-space: nowrap;
+}
+
+/* Keep newer dates darker in both themes; the history palette reverses in dark mode. */
+.fileDate[data-recency="1"] {
+  border-color: #fecaca;
+  background: #fee2e2;
+  color: #450a0a;
+}
+
+.fileDate[data-recency="2"] {
+  border-color: #f87171;
+  background: #fecaca;
+  color: #450a0a;
+}
+
+.fileDate[data-recency="3"] {
+  border-color: #ef4444;
+  background: #f87171;
+  color: #450a0a;
+}
+
+.fileDate[data-recency="4"] {
+  border-color: #dc2626;
+  background: #ef4444;
+  color: #450a0a;
+}
+
+.fileDate[data-recency="5"] {
+  border-color: #991b1b;
+  background: #b91c1c;
+  color: #ffffff;
+}
+
 .activeFile {
   box-shadow: inset 3px 0 var(--accent-bright);
   background: var(--accent-subtle);

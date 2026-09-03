@@ -15,6 +15,7 @@ import {
 import type { TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
 import { buildGithubAvatarUrl } from "@/src/lib/github";
+import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
 
 import styles from "./TilSidebar.module.css";
 
@@ -28,12 +29,14 @@ type TilSidebarProps = {
   currentGithub: string;
   tree: TilTreeNode[];
   activeSlug?: string;
+  today: string;
 };
 
 type TilTreeProps = {
   nodes: TilTreeNode[];
   currentGithub: string;
   activeSlug?: string;
+  today: string;
   expandedPaths: Set<string>;
   onToggleDirectory: (path: string) => void;
   onSelectFile: () => void;
@@ -107,6 +110,7 @@ function TilTree({
   nodes,
   currentGithub,
   activeSlug,
+  today,
   expandedPaths,
   onToggleDirectory,
   onSelectFile,
@@ -139,6 +143,7 @@ function TilTree({
                   nodes={node.children}
                   currentGithub={currentGithub}
                   activeSlug={activeSlug}
+                  today={today}
                   expandedPaths={expandedPaths}
                   onToggleDirectory={onToggleDirectory}
                   onSelectFile={onSelectFile}
@@ -164,6 +169,14 @@ function TilTree({
               <span className={styles.fileMarker} aria-hidden="true">
                 {isActive ? "●" : ""}
               </span>
+              <time
+                className={styles.fileDate}
+                dateTime={node.date}
+                data-recency={getTilDateRecency(node.date, today)}
+                title={node.date}
+              >
+                {formatTilDate(node.date)}
+              </time>
               <span className={styles.nodeName}>{node.title}</span>
             </Link>
           </li>
@@ -178,6 +191,7 @@ export function TilSidebar({
   currentGithub,
   tree,
   activeSlug,
+  today,
 }: TilSidebarProps) {
   const router = useRouter();
   const currentMember = members.find(
@@ -255,6 +269,7 @@ export function TilSidebar({
       nodes={tree}
       currentGithub={currentGithub}
       activeSlug={activeSlug}
+      today={today}
       expandedPaths={expandedPaths}
       onToggleDirectory={toggleDirectory}
       onSelectFile={closeExplorer}
