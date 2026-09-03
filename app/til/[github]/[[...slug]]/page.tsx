@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { getUtcCalendarDate } from "@/src/components/home/contribution-calendar";
 import { MarkdownViewer } from "@/src/components/til/MarkdownViewer";
 import { TilSidebar } from "@/src/components/til/TilSidebar";
 import { getPost } from "@/src/lib/til/post";
@@ -50,6 +51,7 @@ export default async function TilPage({ params }: TilPageProps) {
           currentGithub={currentGithub}
           tree={memberTree.children}
           activeSlug={activeSlug}
+          today={getUtcCalendarDate()}
         />
 
         <section className={styles.content}>
@@ -83,7 +85,7 @@ export default async function TilPage({ params }: TilPageProps) {
                 <p className={styles.emptyLabel}>{memberTree.name}</p>
                 <h1 className={styles.emptyTitle}>TIL</h1>
                 <p className={styles.emptyDescription}>
-                  왼쪽 파일 목록에서 읽을 내용을 선택하세요.
+                  파일 목록에서 읽을 내용을 선택하세요.
                 </p>
               </div>
             </div>

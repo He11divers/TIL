@@ -9,6 +9,7 @@ export type TilFileNode = {
   type: "file";
   name: string;
   title: string;
+  date: string;
   path: string;
   slug: string;
 };

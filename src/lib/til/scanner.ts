@@ -47,6 +47,7 @@ async function scanDirectory(
         type: "file",
         name: entry.name,
         title: frontmatter.title,
+        date: frontmatter.date,
         path: relativePath,
         slug: relativePath.slice(0, -path.extname(relativePath).length),
       });
