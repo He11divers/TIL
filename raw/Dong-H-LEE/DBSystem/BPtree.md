@@ -424,6 +424,10 @@ if childe_index > 0:
 	return
 ```
 
+```python
+def _update_separator
+```
+
 #### 13. 리프 재분배 → 리프노드 중 키값이 부족한 경우(최소 키값 위배)
 
 → \<\<Database System Concepts\>\>의 B+ 트리 정의에서는 루트가 아닌 리프노드에 대해 최소 키값 갯수를 둠. 최소 ceil((b-1)/2)
@@ -551,3 +555,278 @@ def _delete_with_redistribution(self, leaf, index, ancestors):
               /    \
      A[10,20,30] → C[50,60]
 ```
+
+```python
+children = [child for _, child in parent.p] + [parent.r]
+child_index = children.index(leaf)
+
+# 합칠 두 리프를 선택
+separator_index = child_index - 1 if child_index > 0 else 0
+left = children[separator_index]
+right = childre[separator_index + 1]
+# child_index == 0 이면 첫 자식(최좌단 리프)
+# 첫 자식이든 아니든 왼쪽 노드는 유지하고 오른쪽 노드를 제거
+
+del leaf.p_[index]
+left.p_.extend(right.p_)
+left.r = right.r
+
+del parent.p[separator_index]
+if separator_index < parent.m:
+	separator, _ = parent.p[separator_index]
+	parent.p[separator_index] = (separator, left)
+else: # 리프가 2개인 상황에서 합칠 때
+	parent.r = left
+
+if left is leaf and index == 0:
+	self._update_separator(left, ancestors, left.p_[0][0])
+return True
+
+
+```
+
+#### 15. 내부 노드 재분배
+
+→ 리프 노드 간 키 값 이동 시 반드시 각 리프 노드의 최소 키 혹은 최대 키 값이 바뀌기 때문에 부모 노드의 분할 키 값도 바뀌어야 한다.
+
+```python
+def _redistribute_internal(self, node, parent, donor):
+	# node : 키가 부족한 노드
+	# donor : 키를 빌려주는 형제
+	# separator : 기존 부모 구분 키
+	children = [child for _, child in parent.p] + [parent.r]
+	# + 를 통해서 왼쪽 리스트와 오른쪽 리스트를 합친다.
+	child_index = children.index(node)
+
+	# 왼쪽에서 빌릴 때
+	if child_index > 0 and children[child_index - 1] is donor:
+		separator_index = child_index - 1
+		separator, _ = parent.p[separator_index]
+		# 왼쪽 형제의 키, 왼쪽 자식을 추출
+		new_separator, new_right_child = donor.p.pop()
+		# 왼쪽 형제의 r이 넘어오고, 기존 부모 키는 그 자식과 node 사이의 경계가 된다.
+		node.p.insert(0, (separator, donor.r))
+		donor.r = new_right_child
+		parent.p[separator_index] = (new_separator, donor)
+	else: # 오른쪽에서 빌릴 때
+		separator_index = child_index
+		separator, _ = parent.p[separator_index]
+		new_separator, new_right_child = donor.p.pop(0)
+		# 왼쪽 형제의 r이 넘어오고, 기존 부모 키는 그 자식과 node 사이의 경계가 됨.
+		node.p.append((separator, node.r))
+		node.r = moved_child
+		parent.p[separator_index] = (new_separator, node)
+```
+
+→ Python에서 pop()
+
+- pop() : 맨 뒤 꺼냄
+- pop(0) : 맨 앞 꺼냄
+
+#### 16. 내부 노드 병합
+
+→ 두 내부 노드를 병합할 때, 부모의 구분 키도 내려 받고 부모의 구분키를 갱신함.
+
+```python
+ # 병합 전
+              [70 | 130]
+             /    |     \
+        [30|50]  [90]  [150|170]
+         / | \    / \
+        A  B  C  D   E
+
+ # 병합 후
+                 [130]
+               /     \
+     [30 | 50 | 70 | 90]   [150|170]
+       /    |    |    |  \
+      A     B    C    D   E
+```
+
+```python
+def _merge_internal(self, node, parent):
+	children = [child for _, child in parent.p] + [parent.r]
+	child_index = chilren.index(node)
+	separator_index = child_index - 1 if child_index > 0 else 0
+	left = children[separator_index]
+	right = children[separator_index + 1]
+	separator, _ = parent.p[separator_index]
+
+	# 부모 키가 기존 left.r과 오른쪽 첫 자식 사이를 나누는 경계가 된다.
+	left.p.append((separator, left.r))
+	left.p.extend(right.p)
+	left.r = right.r
+
+	# 부모에서 경계를 제거하고, 합친 노드를 가리키도록 연결을 바꿈
+	del parent.p[separator_index]
+	if separator_index < parent.m:
+		next_separator, _ = parent.p[separator_index]
+		parent.p[separator_index] = (next_separator, left)
+	else:
+		parent.r = left
+```
+
+#### 17. 연쇄 복구 및 루트 축소
+
+→ 핵심은 병합으로 인해 부모까지 부족해지면, 연쇄적으로 부모까지 복구 과정을 진행함.
+
+```python
+                  [50]
+                /      \
+             [30]      [70]
+             /  \      /  \
+        [10,20][30,40][50,60][70,80]
+
+                  [50]
+                /      \
+              [ ]      [70]
+               |       /  \
+        [20,30,40] [50,60][70,80]
+
+                  [ ]          ← 기존 루트: 키 0개
+                   |
+                [50,70]
+               /   |   \
+      [20,30,40][50,60][70,80]
+
+                [50,70]        ← 새 루트
+               /   |   \
+      [20,30,40][50,60][70,80]
+```
+
+```python
+def _rebalance_internal(self, node, ancestors):
+	min_keys = (self.b + 1) // 2 - 1
+	while node is not self.root:
+		if node.m >= min_keys:
+			return # 부모의 키 수는 변하지 않으니까 종료
+
+		parent = ancestors.pop()
+		donor = self._find_internal_donor(node, parent)
+		if donor is not None:
+			self._redistribute_internal(node, parent, donor)
+			return # 재분배에서는 부모의 키 수를 줄이지 않음.
+
+		self._merge_internal(node, parent)
+		node = parent # 병합 시에는 부모 키를 하나 줄임 -> 다음 반복에서 부모 확인
+
+	# 내부 루트는 키 하나라도 허용 but 0개면 r의 유일한 자식을 새 루트로 삼음
+	if node.m == 0:
+		self.root = node.r
+
+```
+
+- 내부 노드가 2개 일 때 예시
+
+```python
+                    R [50]                 ← 루트
+                   /      \
+             A [30]        B [70]          ← 내부 노드 두 개
+              /  \          /  \
+        [10,20] [30,40] [50,60] [70,80]    ← 리프
+
+                    R [50]
+                   /      \
+              A [ ]        B [70]
+                |           /  \
+          [20,30,40]   [50,60] [70,80]
+
+                    R [ ]             ← 50을 내려줘서 키 0개
+                      |
+                      r
+                      ↓
+                 A [50 | 70]          ← A와 B를 합친 노드
+                  /    |    \
+          [20,30,40] [50,60] [70,80]
+
+                 A [50 | 70]          ← 새 루트
+                  /    |    \
+          [20,30,40] [50,60] [70,80]
+```
+
+#### 18. 트리 직렬화와 복원
+
+- serialize() : 현재 트리를 JSON 문자열로 변환
+- deserialize() : 그 문자열로부터 같은 구조의 새 트리를 생성
+
+#### 19. 인덱스 생성과 변경 내용 저장
+
+![](../images/bptree_index_save_01.png)
+
+#### 20. -c, -i, -d, -s, -r와 csv 연결
+
+- CSV를 읽고 정수로 변환
+
+```python
+def read_csv_rows(data_file, columns):
+    """헤더 없는 CSV를 파일 순서대로 읽어 정수 튜플을 하나씩 반환한다."""
+    with open(data_file, "r", encoding="utf-8-sig", newline="") as file:
+        reader = csv.reader(file, strict=True)
+
+        for row in reader:
+            if not row:  # 빈 줄은 건너뛴다.
+                continue
+
+            if len(row) != columns:
+                raise ValueError(
+                    f"{data_file}:{reader.line_num}: {columns}개의 열이 필요합니다."
+                )
+
+            try:
+                values = tuple(int(value) for value in row)
+            except ValueError as error:
+                raise ValueError(
+                    f"{data_file}:{reader.line_num}: 키와 값은 정수여야 합니다."
+                ) from error
+
+            yield values
+```
+
+- 명령행 인자를 받아 생성, 삽입, 삭제를 실행
+
+```python
+def main(argv=None):
+    """명령 하나를 실행한다. 성공은 0, 처리 오류는 1, 사용법 오류는 2를 반환한다."""
+    if argv is None:
+        argv = sys.argv[1:]  # 프로그램 파일 이름을 제외한 인자들.
+    argument_counts = {"-c": 3, "-i": 3, "-d": 3, "-s": 3, "-r": 4}
+    if not argv or len(argv) != argument_counts.get(argv[0]):
+        print(
+            "Usage:\n"
+            "  python bptree.py -c index_file b\n"
+            "  python bptree.py -i index_file data_file\n"
+            "  python bptree.py -d index_file data_file\n"
+            "  python bptree.py -s index_file key\n"
+            "  python bptree.py -r index_file start_key end_key",
+            file=sys.stderr,
+        )
+        return 2
+
+    command, index_file, argument = argv[:3]
+    try:
+        if command == "-c":
+            b = int(argument)
+            if b < 3:
+                raise ValueError("b는 3 이상의 정수여야 합니다.")
+            BPlusTree.create(index_file, b)
+        else:
+            tree = BPlusTree.load(index_file)
+            if command == "-i":
+                for key, value in read_csv_rows(argument, 2):
+                    tree.insert(key, value)
+            elif command == "-d":
+                for (key,) in read_csv_rows(argument, 1):
+                    tree.delete(key)
+            elif command == "-s":
+                tree.print_search(int(argument))
+            else:  # -r
+                tree.print_range_search(int(argument), int(argv[3]))
+            if command in ("-i", "-d"):
+                tree.save(index_file)  # 변경 명령의 모든 행을 처리한 뒤 한 번만 저장한다.
+    except (OSError, ValueError, csv.Error) as error:
+        print(f"Error: {error}", file=sys.stderr)
+        return 1
+    return 0
+```
+
+#### 21.
