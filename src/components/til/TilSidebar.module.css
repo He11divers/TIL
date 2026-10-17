@@ -447,7 +447,6 @@
 }
 
 .activeFile {
-  box-shadow: inset 3px 0 var(--accent-bright);
   background: var(--accent-subtle);
   color: var(--foreground);
   font-weight: 600;
