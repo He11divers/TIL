@@ -30,6 +30,25 @@
   padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4.5rem) 6rem;
 }
 
+.readingLayout {
+  min-width: 0;
+}
+
+@media (min-width: 72rem) {
+  .withToc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    align-items: start;
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+
+  .withToc .article {
+    padding-right: clamp(1.5rem, 3vw, 3rem);
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+  }
+}
+
 .postHeader {
   max-width: 48rem;
   margin: 0 auto;
