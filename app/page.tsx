@@ -13,7 +13,6 @@ export default async function Home() {
     <main className={styles.page}>
       <div className={styles.container}>
         <header className={styles.hero}>
-          <p className={styles.kicker}>Group study archive</p>
           <h1 className={styles.logo}>
             <Image
               className={styles.logoImage}
@@ -33,15 +32,9 @@ export default async function Home() {
 
         <section className={styles.dashboard} aria-labelledby="dashboard-title">
           <div className={styles.dashboardHeader}>
-            <div>
-              <p className={styles.sectionKicker}>Study dashboard</p>
-              <h2 className={styles.dashboardTitle} id="dashboard-title">
-                TIL 현황
-              </h2>
-            </div>
-            <p className={styles.memberCount}>
-              {summaries.length} member{summaries.length === 1 ? "" : "s"}
-            </p>
+            <h2 className={styles.dashboardTitle} id="dashboard-title">
+              TIL 현황
+            </h2>
           </div>
 
           <div className={styles.memberList}>
