@@ -324,60 +324,62 @@ export function TilSidebar({
       <div
         className={styles.sidebarContent}
         id="til-sidebar-content"
-        hidden={!isSidebarOpen}
+        inert={!isSidebarOpen}
       >
-        <div className={styles.memberSelector}>
-          <label className={styles.memberLabel} htmlFor="til-member">
-            스터디원
-          </label>
-          <div className={styles.memberSelectControl}>
-            {currentMember ? (
-              <Image
-                className={styles.memberAvatar}
-                src={buildGithubAvatarUrl(currentMember.github)}
-                alt=""
-                width={28}
-                height={28}
-                unoptimized
-              />
-            ) : null}
-            <select
-              className={styles.memberSelect}
-              id="til-member"
-              value={currentGithub}
-              onChange={handleMemberChange}
-            >
-              {members.map((member) => (
-                <option key={member.github} value={member.github}>
-                  {member.name} ({member.github})
-                </option>
-              ))}
-            </select>
+        <div className={styles.sidebarContentInner}>
+          <div className={styles.memberSelector}>
+            <label className={styles.memberLabel} htmlFor="til-member">
+              스터디원
+            </label>
+            <div className={styles.memberSelectControl}>
+              {currentMember ? (
+                <Image
+                  className={styles.memberAvatar}
+                  src={buildGithubAvatarUrl(currentMember.github)}
+                  alt=""
+                  width={28}
+                  height={28}
+                  unoptimized
+                />
+              ) : null}
+              <select
+                className={styles.memberSelect}
+                id="til-member"
+                value={currentGithub}
+                onChange={handleMemberChange}
+              >
+                {members.map((member) => (
+                  <option key={member.github} value={member.github}>
+                    {member.name} ({member.github})
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.mobileExplorer}>
-          <p className={styles.memberLabel}>목록</p>
-          <button
-            className={styles.explorerTrigger}
-            type="button"
-            aria-label={`TIL 파일 선택: ${activeFile?.title ?? "파일을 선택하세요"}`}
-            aria-haspopup="dialog"
-            aria-expanded={isExplorerOpen}
-            aria-controls="til-file-dialog"
-            onClick={openExplorer}
-          >
-            <span className={styles.nodeName}>
-              {activeFile?.title ?? "파일을 선택하세요"}
-            </span>
-            <span className={styles.chevron} aria-hidden="true">▾</span>
-          </button>
-        </div>
+          <div className={styles.mobileExplorer}>
+            <p className={styles.memberLabel}>목록</p>
+            <button
+              className={styles.explorerTrigger}
+              type="button"
+              aria-label={`TIL 파일 선택: ${activeFile?.title ?? "파일을 선택하세요"}`}
+              aria-haspopup="dialog"
+              aria-expanded={isExplorerOpen}
+              aria-controls="til-file-dialog"
+              onClick={openExplorer}
+            >
+              <span className={styles.nodeName}>
+                {activeFile?.title ?? "파일을 선택하세요"}
+              </span>
+              <span className={styles.chevron} aria-hidden="true">▾</span>
+            </button>
+          </div>
 
-        <nav className={styles.explorer} aria-label="TIL files">
-          <p className={styles.explorerLabel}>목록</p>
-          <div className={styles.treeViewport}>{fileTree}</div>
-        </nav>
+          <nav className={styles.explorer} aria-label="TIL files">
+            <p className={styles.explorerLabel}>목록</p>
+            <div className={styles.treeViewport}>{fileTree}</div>
+          </nav>
+        </div>
       </div>
 
       <dialog
