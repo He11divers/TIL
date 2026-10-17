@@ -32,8 +32,10 @@
 
 .postHeader {
   max-width: 48rem;
+  margin: 0 auto;
   padding-bottom: clamp(2rem, 4vw, 2.75rem);
   border-bottom: 1px solid var(--border);
+  text-align: center;
 }
 
 .postLabel {
@@ -57,7 +59,7 @@
 
 .postDescription {
   max-width: 42rem;
-  margin: 1.25rem 0 0;
+  margin: 1.25rem auto 0;
   color: var(--foreground-muted);
   font-size: clamp(1rem, 2vw, 1.12rem);
   line-height: 1.75;
