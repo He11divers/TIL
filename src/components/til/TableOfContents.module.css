@@ -3,6 +3,7 @@
   z-index: 10;
   right: 1rem;
   bottom: 1rem;
+  width: 6rem;
   max-width: calc(100vw - 2rem);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -10,9 +11,10 @@
   background: var(--surface-subtle);
   color: var(--foreground-muted);
   box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.15);
+  transition: width 260ms ease;
 }
 
-.desktopTitle {
+.desktopHeader {
   display: none;
 }
 
@@ -40,23 +42,46 @@
   outline-offset: -3px;
 }
 
+.body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.75rem);
+  transition:
+    grid-template-rows 260ms ease,
+    opacity 180ms ease,
+    transform 260ms ease,
+    visibility 0s 260ms;
+}
+
 .list {
-  display: none;
+  min-height: 0;
   max-height: 60dvh;
   overflow-y: auto;
   margin: 0;
-  padding: 0.25rem 0.5rem 0.75rem;
+  padding: 0 0.5rem;
   list-style: none;
   overscroll-behavior: contain;
   scrollbar-width: thin;
+  transition: padding 260ms ease;
 }
 
 .toc[data-open="true"] {
   width: min(20rem, calc(100vw - 2rem));
 }
 
+.toc[data-open="true"] .body {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
 .toc[data-open="true"] .list {
-  display: block;
+  padding-top: 0.25rem;
+  padding-bottom: 0.75rem;
 }
 
 .link {
@@ -102,13 +127,77 @@
     box-shadow: none;
   }
 
+  .desktopHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    padding: 0.25rem;
+  }
+
   .desktopTitle {
-    display: block;
+    min-width: 0;
     margin: 0;
-    padding: 0.85rem 1rem 0.5rem;
+    padding: 0 0.5rem;
     color: var(--foreground);
     font-size: 0.8125rem;
     font-weight: 650;
+  }
+
+  .desktopToggle {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: none;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--foreground-muted);
+    cursor: pointer;
+  }
+
+  .desktopToggle:hover {
+    background: var(--surface-interactive);
+    color: var(--foreground);
+  }
+
+  .desktopToggle:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .desktopToggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .toc[data-desktop-open="false"] .desktopTitle {
+    display: none;
+  }
+
+  .toc[data-desktop-open="false"] .desktopHeader {
+    justify-content: center;
+  }
+
+  .toc[data-desktop-open="true"] .body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    transition-delay: 0s;
+  }
+
+  .toc[data-desktop-open="false"] .body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(1rem);
+    transition-delay: 0s, 0s, 0s, 260ms;
   }
 
   .mobileToggle {
@@ -116,12 +205,27 @@
   }
 
   .list {
-    display: block;
-    max-height: calc(100dvh - 7rem);
+    max-height: calc(100dvh - 10rem);
+  }
+
+  .toc[data-desktop-open="true"] .list {
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .toc[data-desktop-open="false"] .list {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .toc,
+  .body,
+  .list {
+    transition: none;
+  }
+
   :global(html):has(.toc) {
     scroll-behavior: auto;
   }

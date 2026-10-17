@@ -41,11 +41,22 @@
     align-items: start;
     gap: 1rem;
     padding-right: 1rem;
+    transition: grid-template-columns 260ms ease;
+  }
+
+  .withToc:has(> [data-desktop-open="false"]) {
+    grid-template-columns: minmax(0, 1fr) 3.5rem;
   }
 
   .withToc .article {
     padding-right: clamp(1.5rem, 3vw, 3rem);
     padding-left: clamp(1.5rem, 3vw, 3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .withToc {
+    transition: none;
   }
 }
 
