@@ -14,6 +14,7 @@
 .sidebarTitle {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: 0.7rem;
   margin: 0;
   color: var(--foreground);
@@ -22,6 +23,61 @@
   font-weight: 750;
   letter-spacing: -0.035em;
   text-decoration: none;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sidebarTitle span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebarToggle {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--foreground-muted);
+  cursor: pointer;
+}
+
+.sidebarToggle:hover {
+  background: var(--surface-interactive);
+  color: var(--foreground);
+}
+
+.sidebarToggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebarContent {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sidebarContent[hidden] {
+  display: none;
 }
 
 .sidebarLogo {
@@ -358,6 +414,21 @@
 
   .explorer {
     display: flex;
+  }
+
+  .sidebar[data-collapsed="true"] {
+    width: 4.5rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .sidebar[data-collapsed="true"] .sidebarHeader {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+
+  .sidebar[data-collapsed="true"] .sidebarTitle span {
+    display: none;
   }
 
   .mobileExplorer {
