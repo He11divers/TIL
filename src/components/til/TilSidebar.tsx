@@ -2,14 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   useEffect,
   useMemo,
   useRef,
   useState,
   type CSSProperties,
-  type ChangeEvent,
 } from "react";
 
 import type { TilFileNode, TilTreeNode } from "@/src/lib/til/types";
@@ -19,6 +17,7 @@ import { buildGithubAvatarUrl, buildGithubHref } from "@/src/lib/github";
 import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
 
 import styles from "./TilSidebar.module.css";
+import { MemberSelector } from "./MemberSelector";
 
 type MemberOption = {
   name: string;
@@ -195,7 +194,6 @@ export function TilSidebar({
   activeSlug,
 }: TilSidebarProps) {
   const today = useLocalCalendarDate();
-  const router = useRouter();
   const currentMember = members.find(
     (member) => member.github === currentGithub,
   );
@@ -239,10 +237,6 @@ export function TilSidebar({
       mergeExpandedPaths(currentPaths, activeAncestorPaths),
     );
   }, [activeAncestorPaths]);
-
-  function handleMemberChange(event: ChangeEvent<HTMLSelectElement>) {
-    router.push(buildMemberHref(event.target.value));
-  }
 
   function openExplorer() {
     explorerDialogRef.current?.showModal();
@@ -349,35 +343,11 @@ export function TilSidebar({
         inert={!isSidebarOpen}
       >
         <div className={styles.sidebarContentInner}>
-          <div className={styles.memberSelector}>
-            <label className={styles.memberLabel} htmlFor="til-member">
-              스터디원
-            </label>
-            <div className={styles.memberSelectControl}>
-              {currentMember ? (
-                <Image
-                  className={styles.memberAvatar}
-                  src={buildGithubAvatarUrl(currentMember.github)}
-                  alt=""
-                  width={28}
-                  height={28}
-                  unoptimized
-                />
-              ) : null}
-              <select
-                className={styles.memberSelect}
-                id="til-member"
-                value={currentGithub}
-                onChange={handleMemberChange}
-              >
-                {members.map((member) => (
-                  <option key={member.github} value={member.github}>
-                    {member.name} ({member.github})
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <MemberSelector
+            members={members}
+            currentGithub={currentGithub}
+            disabled={!isSidebarOpen}
+          />
 
           <section
             className={styles.recentPosts}
