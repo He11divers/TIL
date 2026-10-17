@@ -48,14 +48,14 @@ export function ContributionGraph({
       aria-busy={!endDate}
     >
       <div className={styles.history}>
-        <div className={styles.viewport} tabIndex={0}>
-          <div className={styles.graphBody}>
-            <div className={styles.weekdayLabels} aria-hidden="true">
-              {WEEKDAY_LABELS.map((label, index) => (
-                <span key={`${label}:${index}`}>{label}</span>
-              ))}
-            </div>
+        <div className={styles.graphBody}>
+          <div className={styles.weekdayLabels} aria-hidden="true">
+            {WEEKDAY_LABELS.map((label, index) => (
+              <span key={`${label}:${index}`}>{label}</span>
+            ))}
+          </div>
 
+          <div className={styles.viewport}>
             <div
               className={styles.calendar}
               role="grid"
