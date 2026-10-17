@@ -181,6 +181,22 @@
 
   .toc[data-desktop-open="false"] .desktopHeader {
     justify-content: center;
+    padding: 0.2rem;
+  }
+
+  .toc[data-desktop-open="false"] {
+    width: 2.45rem;
+    justify-self: end;
+  }
+
+  .toc[data-desktop-open="false"] .desktopToggle {
+    width: 1.925rem;
+    height: 1.925rem;
+  }
+
+  .toc[data-desktop-open="false"] .desktopToggle svg {
+    width: 0.875rem;
+    height: 0.875rem;
   }
 
   .toc[data-desktop-open="true"] .body {
