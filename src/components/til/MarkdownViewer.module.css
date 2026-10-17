@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 72ch;
   min-width: 0;
+  color: var(--foreground);
   font-size: 1rem;
   line-height: 1.8;
   overflow-wrap: anywhere;
@@ -271,6 +272,11 @@
 }
 
 @media (prefers-color-scheme: dark) {
+  .markdown,
+  .markdown blockquote {
+    color: #ffffff;
+  }
+
   .markdown :global(.hljs-comment),
   .markdown :global(.hljs-quote) {
     color: #8b949e;
