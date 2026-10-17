@@ -80,11 +80,6 @@
   letter-spacing: -0.035em;
 }
 
-.memberList {
-  display: grid;
-  gap: 0.65rem;
-}
-
 @media (max-width: 48rem) {
   .container {
     padding: 0 1rem 2rem;

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { MemberTilRow } from "@/src/components/home/MemberTilRow";
+import { MemberDashboard } from "@/src/components/home/MemberDashboard";
 import { getAllMemberTilSummaries } from "@/src/lib/til/stats";
 
 import siteIcon from "./icon.png";
@@ -37,11 +37,7 @@ export default async function Home() {
             </h2>
           </div>
 
-          <div className={styles.memberList}>
-            {summaries.map((summary) => (
-              <MemberTilRow summary={summary} key={summary.github} />
-            ))}
-          </div>
+          <MemberDashboard summaries={summaries} />
         </section>
       </div>
     </main>

@@ -1,0 +1,92 @@
+.memberList {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.notice {
+  margin: 0;
+  padding: 1.5rem 0.25rem;
+  color: var(--foreground-muted);
+  font-size: 0.875rem;
+}
+
+.dormantMembers {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.dormantToggle {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.25rem;
+  color: var(--foreground-muted);
+  list-style: none;
+  cursor: pointer;
+}
+
+.dormantToggle::-webkit-details-marker {
+  display: none;
+}
+
+.dormantToggle:hover {
+  color: var(--foreground);
+}
+
+.dormantToggle:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+}
+
+.dormantTitle,
+.toggleAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.dormantTitle {
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.dormantCount,
+.toggleAction {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.expandedLabel,
+.dormantMembers[open] .collapsedLabel {
+  display: none;
+}
+
+.dormantMembers[open] .expandedLabel {
+  display: inline;
+}
+
+.dormantMembers[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.dormantDescription {
+  margin: 0 0 0.85rem;
+  padding: 0 0.25rem;
+  color: var(--foreground-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
