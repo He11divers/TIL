@@ -5,7 +5,8 @@ import { TilSidebar } from "@/src/components/til/TilSidebar";
 import { TableOfContents } from "@/src/components/til/TableOfContents";
 import { getMarkdownHeadings } from "@/src/lib/til/markdown-headings";
 import { getPost } from "@/src/lib/til/post";
-import { getMemberTree } from "@/src/lib/til/tree";
+import { flattenTilFiles, getMemberTree } from "@/src/lib/til/tree";
+import { getRecentTilFiles } from "@/src/lib/til/recent";
 import { study } from "@/study.config";
 
 import styles from "./page.module.css";
@@ -53,6 +54,7 @@ export default async function TilPage({ params }: TilPageProps) {
           members={study.members}
           currentGithub={currentGithub}
           tree={memberTree.children}
+          recentFiles={getRecentTilFiles(flattenTilFiles(memberTree.children))}
           activeSlug={activeSlug}
         />
 

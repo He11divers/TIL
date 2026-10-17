@@ -125,12 +125,44 @@
 }
 
 .memberLabel,
+.recentLabel,
 .explorerLabel {
   color: var(--foreground-muted);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.recentPosts {
+  min-width: 0;
+  flex: none;
+}
+
+.recentLabel {
+  margin: 0 0 0.5rem;
+}
+
+.recentList {
+  display: grid;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recentList li {
+  min-width: 0;
+}
+
+.recentLink {
+  --til-tree-indent: 0.25rem;
+}
+
+.emptyRecent {
+  margin: 0;
+  color: var(--foreground-muted);
+  font-size: 0.8125rem;
 }
 
 .memberSelectControl {

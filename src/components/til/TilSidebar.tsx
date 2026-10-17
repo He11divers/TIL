@@ -12,7 +12,7 @@ import {
   type ChangeEvent,
 } from "react";
 
-import type { TilTreeNode } from "@/src/lib/til/types";
+import type { TilFileNode, TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
 import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
 import { buildGithubAvatarUrl } from "@/src/lib/github";
@@ -29,6 +29,7 @@ type TilSidebarProps = {
   members: MemberOption[];
   currentGithub: string;
   tree: TilTreeNode[];
+  recentFiles: TilFileNode[];
   activeSlug?: string;
 };
 
@@ -190,6 +191,7 @@ export function TilSidebar({
   members,
   currentGithub,
   tree,
+  recentFiles,
   activeSlug,
 }: TilSidebarProps) {
   const today = useLocalCalendarDate();
@@ -356,6 +358,41 @@ export function TilSidebar({
               </select>
             </div>
           </div>
+
+          <section
+            className={styles.recentPosts}
+            aria-labelledby="til-recent-posts-title"
+          >
+            <h2 className={styles.recentLabel} id="til-recent-posts-title">
+              최신 글
+            </h2>
+            {recentFiles.length ? (
+              <ol className={styles.recentList}>
+                {recentFiles.map((file) => (
+                  <li key={file.path}>
+                    <Link
+                      className={`${styles.fileLink} ${styles.recentLink} ${file.slug === activeSlug ? styles.activeFile : ""}`}
+                      href={buildPostHref(currentGithub, file.slug)}
+                      title={file.title}
+                      aria-current={file.slug === activeSlug ? "page" : undefined}
+                      onNavigate={closeExplorer}
+                    >
+                      <time
+                        className={styles.fileDate}
+                        dateTime={file.date}
+                        data-recency={today ? getTilDateRecency(file.date, today) : 0}
+                      >
+                        {formatTilDate(file.date)}
+                      </time>
+                      <span className={styles.nodeName}>{file.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className={styles.emptyRecent}>아직 작성한 글이 없습니다.</p>
+            )}
+          </section>
 
           <div className={styles.mobileExplorer}>
             <p className={styles.memberLabel}>목록</p>
