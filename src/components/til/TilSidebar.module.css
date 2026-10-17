@@ -118,6 +118,10 @@
   color: var(--accent);
 }
 
+.collapsedMember {
+  display: none;
+}
+
 .memberSelector {
   display: flex;
   flex-direction: column;
@@ -487,6 +491,19 @@
 
   .sidebar[data-collapsed="true"] .sidebarTitle span {
     display: none;
+  }
+
+  .sidebar[data-collapsed="true"] .collapsedMember {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    margin: 1rem auto 0;
+    border-radius: var(--radius-md);
+  }
+
+  .collapsedMember:hover .sidebarLogo {
+    border-color: var(--accent);
   }
 
   .sidebarContent {

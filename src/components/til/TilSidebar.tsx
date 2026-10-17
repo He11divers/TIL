@@ -15,7 +15,7 @@ import {
 import type { TilFileNode, TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
 import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
-import { buildGithubAvatarUrl } from "@/src/lib/github";
+import { buildGithubAvatarUrl, buildGithubHref } from "@/src/lib/github";
 import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
 
 import styles from "./TilSidebar.module.css";
@@ -322,6 +322,26 @@ export function TilSidebar({
           </svg>
         </button>
       </div>
+
+      {currentMember ? (
+        <a
+          className={styles.collapsedMember}
+          href={buildGithubHref(currentMember.github)}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${currentMember.name} GitHub profile`}
+          title={`${currentMember.name} (${currentMember.github})`}
+        >
+          <Image
+            className={styles.sidebarLogo}
+            src={buildGithubAvatarUrl(currentMember.github)}
+            alt=""
+            width={40}
+            height={40}
+            unoptimized
+          />
+        </a>
+      ) : null}
 
       <div
         className={styles.sidebarContent}
