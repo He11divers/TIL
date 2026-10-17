@@ -48,6 +48,10 @@
     grid-template-columns: minmax(0, 1fr) 3.5rem;
   }
 
+  .shell:has(> [data-collapsed="true"]) .withToc:has(> [data-desktop-open="false"]) {
+    gap: 0;
+  }
+
   .withToc .article {
     padding-right: clamp(1.5rem, 3vw, 3rem);
     padding-left: clamp(1.5rem, 3vw, 3rem);
@@ -159,6 +163,12 @@
 
   .emptyState {
     min-height: 100dvh;
+  }
+}
+
+@media (min-width: 56rem) and (width < 72rem) {
+  .shell:has(> [data-collapsed="true"]) .readingLayout:has(> [data-open="false"]) {
+    padding-right: 4.5rem;
   }
 }
 
