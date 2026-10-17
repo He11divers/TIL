@@ -30,10 +30,46 @@
   padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4.5rem) 6rem;
 }
 
+.readingLayout {
+  min-width: 0;
+}
+
+@media (min-width: 72rem) {
+  .withToc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    align-items: start;
+    gap: 1rem;
+    padding-right: 1rem;
+    transition: grid-template-columns 260ms ease;
+  }
+
+  .withToc:has(> [data-desktop-open="false"]) {
+    grid-template-columns: minmax(0, 1fr) 3.5rem;
+  }
+
+  .shell:has(> [data-collapsed="true"]) .withToc:has(> [data-desktop-open="false"]) {
+    gap: 0;
+  }
+
+  .withToc .article {
+    padding-right: clamp(1.5rem, 3vw, 3rem);
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .withToc {
+    transition: none;
+  }
+}
+
 .postHeader {
   max-width: 48rem;
+  margin: 0 auto;
   padding-bottom: clamp(2rem, 4vw, 2.75rem);
   border-bottom: 1px solid var(--border);
+  text-align: center;
 }
 
 .postLabel {
@@ -57,7 +93,7 @@
 
 .postDescription {
   max-width: 42rem;
-  margin: 1.25rem 0 0;
+  margin: 1.25rem auto 0;
   color: var(--foreground-muted);
   font-size: clamp(1rem, 2vw, 1.12rem);
   line-height: 1.75;
@@ -127,6 +163,12 @@
 
   .emptyState {
     min-height: 100dvh;
+  }
+}
+
+@media (min-width: 56rem) and (width < 72rem) {
+  .shell:has(> [data-collapsed="true"]) .readingLayout:has(> [data-open="false"]) {
+    padding-right: 4.5rem;
   }
 }
 

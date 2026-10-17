@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
 import { resolveTilImageSource } from "@/src/lib/til/assets";
+import { remarkHeadingIds } from "@/src/lib/til/markdown-headings";
 
 import styles from "./MarkdownViewer.module.css";
 
@@ -39,7 +40,7 @@ export function MarkdownViewer({
   return (
     <div className={styles.markdown}>
       <Markdown
-        remarkPlugins={[remarkGfm, remarkMath]}
+        remarkPlugins={[remarkGfm, remarkMath, remarkHeadingIds]}
         rehypePlugins={[
           [rehypeHighlight, { detect: false, plainText: ["math"] }],
           rehypeMathjax,

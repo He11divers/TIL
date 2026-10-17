@@ -2,8 +2,11 @@ import { notFound } from "next/navigation";
 
 import { MarkdownViewer } from "@/src/components/til/MarkdownViewer";
 import { TilSidebar } from "@/src/components/til/TilSidebar";
+import { TableOfContents } from "@/src/components/til/TableOfContents";
+import { getMarkdownHeadings } from "@/src/lib/til/markdown-headings";
 import { getPost } from "@/src/lib/til/post";
-import { getMemberTree } from "@/src/lib/til/tree";
+import { flattenTilFiles, getMemberTree } from "@/src/lib/til/tree";
+import { getRecentTilFiles } from "@/src/lib/til/recent";
 import { study } from "@/study.config";
 
 import styles from "./page.module.css";
@@ -41,6 +44,8 @@ export default async function TilPage({ params }: TilPageProps) {
     notFound();
   }
 
+  const headings = post ? getMarkdownHeadings(post.content) : [];
+
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
@@ -49,34 +54,42 @@ export default async function TilPage({ params }: TilPageProps) {
           members={study.members}
           currentGithub={currentGithub}
           tree={memberTree.children}
+          recentFiles={getRecentTilFiles(flattenTilFiles(memberTree.children))}
           activeSlug={activeSlug}
         />
 
         <section className={styles.content}>
           {post ? (
-            <article className={styles.article}>
-              <header className={styles.postHeader}>
-                <p className={styles.postLabel}>TIL Note</p>
-                <h1 className={styles.postTitle}>{post.title}</h1>
-                {post.description ? (
-                  <p className={styles.postDescription}>{post.description}</p>
-                ) : null}
-                <time
-                  className={styles.postDate}
-                  dateTime={post.date}
-                >
-                  {post.date}
-                </time>
-              </header>
+            <div className={`${styles.readingLayout} ${headings.length ? styles.withToc : ""}`}>
+              <article className={styles.article} id="til-post-content">
+                <header className={styles.postHeader}>
+                  <p className={styles.postLabel}>TIL Note</p>
+                  <h1 className={styles.postTitle}>{post.title}</h1>
+                  {post.description ? (
+                    <p className={styles.postDescription}>{post.description}</p>
+                  ) : null}
+                  <time
+                    className={styles.postDate}
+                    dateTime={post.date}
+                  >
+                    {post.date}
+                  </time>
+                </header>
 
-              <div className={styles.markdownBody}>
-                <MarkdownViewer
-                  content={post.content}
-                  github={post.github}
-                  postPath={post.path}
-                />
-              </div>
-            </article>
+                <div className={styles.markdownBody}>
+                  <MarkdownViewer
+                    content={post.content}
+                    github={post.github}
+                    postPath={post.path}
+                  />
+                </div>
+              </article>
+              <TableOfContents
+                key={`${post.github}:${post.slug}`}
+                headings={headings}
+                contentId="til-post-content"
+              />
+            </div>
           ) : (
             <div className={styles.emptyState}>
               <div className={styles.emptyContent}>

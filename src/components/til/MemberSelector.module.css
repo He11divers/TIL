@@ -1,0 +1,136 @@
+.selector {
+  display: flex;
+  min-width: 0;
+  flex: none;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  color: var(--foreground-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.trigger {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 0.55rem 0.65rem;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  border-color: var(--foreground-muted);
+}
+
+.trigger:focus-visible {
+  outline-offset: 2px;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.memberText {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.15rem;
+}
+
+.name,
+.github {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.name {
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.github {
+  color: var(--foreground-muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  line-height: 1.25;
+}
+
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chevron[data-open="true"] {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: fixed;
+  inset: auto;
+  z-index: 20;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 0.25rem;
+  color: var(--foreground);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.25);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.option {
+  display: flex;
+  min-width: 0;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.option + .option {
+  margin-top: 0.125rem;
+}
+
+.option:hover,
+.option[data-active="true"] {
+  background: var(--surface-interactive);
+}
+
+.option[aria-selected="true"] {
+  background: var(--accent-subtle);
+}
+
+.checkmark {
+  flex: none;
+  color: var(--accent);
+  font-size: 0.875rem;
+}
