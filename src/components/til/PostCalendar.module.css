@@ -1,0 +1,37 @@
+.calendar {
+  width: 16rem;
+  min-height: 16rem;
+  flex: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+  padding: 0.75rem;
+}
+
+.navigation { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; margin-bottom: 0.5rem; }
+.navigation button { min-width: 2rem; min-height: 2rem; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--foreground); cursor: pointer; font-size: 1.2rem; }
+.navigation .month { padding: 0.2rem 0.5rem; font-size: 0.9rem; font-weight: 650; }
+.year { color: var(--foreground-muted); font-size: 0.75rem; font-weight: 450; }
+.navigation button:hover { background: var(--surface-interactive); }
+.navigation button:disabled { opacity: 0.3; cursor: default; }
+.days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; }
+.weekday { color: var(--foreground-muted); font-size: 0.65rem; text-align: center; padding: 0.2rem 0; }
+.day { height: 1.5rem; min-width: 0; border: 0; border-radius: 0.25rem; font-size: 0.65rem; font-variant-numeric: tabular-nums; cursor: pointer; color: var(--foreground-muted); }
+.day, .swatch { background: var(--contribution-0); }
+.day[data-level="1"], .swatch[data-level="1"] { background: var(--contribution-1); }
+.day[data-level="2"], .swatch[data-level="2"] { background: var(--contribution-2); }
+.day[data-level="3"], .swatch[data-level="3"] { background: var(--contribution-3); }
+.day[data-level="4"], .swatch[data-level="4"] { background: var(--contribution-4); }
+.day[data-level="1"], .day[data-level="2"] { color: #450a0a; }
+.day[data-level="3"], .day[data-level="4"] { color: #fff; }
+.day[aria-current="date"] { box-shadow: inset 0 0 0 1px var(--foreground-muted); }
+.day:hover { outline: 1px solid var(--foreground-muted); outline-offset: 1px; }
+.day[aria-pressed="true"], .month[aria-pressed="true"] { outline: 2px solid var(--foreground); outline-offset: 2px; font-weight: 800; }
+.month[aria-pressed="true"] { background: var(--accent-subtle); }
+.legend { display: flex; align-items: center; justify-content: flex-end; gap: 0.2rem; margin-top: 0.65rem; color: var(--foreground-muted); font-size: 0.55rem; }
+.swatch { width: 0.5rem; height: 0.5rem; border-radius: 0.1rem; }
+
+@media (prefers-color-scheme: dark) {
+  .day[data-level="1"], .day[data-level="2"] { color: #fff; }
+  .day[data-level="3"], .day[data-level="4"] { color: #450a0a; }
+}

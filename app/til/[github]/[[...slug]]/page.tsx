@@ -108,7 +108,7 @@ export default async function TilPage({ params, searchParams }: TilPageProps) {
               />
             </div>
           ) : (
-            <FolderPosts github={currentGithub} name={memberTree.name} folder={activeFolder}
+            <FolderPosts key={`${currentGithub}:${activeFolder}`} github={currentGithub} name={memberTree.name} folder={activeFolder}
               nodes={directory?.children ?? memberTree.children} />
           )}
         </section>
