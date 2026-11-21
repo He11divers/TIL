@@ -17,7 +17,6 @@
 .header { margin: 2.5rem 0 1.75rem; }
 .author { color: var(--person-name); font-size: 0.8rem; font-weight: 650; }
 .header h1 { margin: 0.6rem 0; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.04em; overflow-wrap: anywhere; }
-.header > p:last-child { color: var(--foreground-muted); font-size: 0.8rem; }
 .folders { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
 .folders a { display: flex; align-items: center; gap: 0.7rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 0.6rem 0.85rem; color: var(--foreground-soft); font-size: 0.8rem; text-decoration: none; overflow-wrap: anywhere; }
 .folders a:hover { background: var(--surface-interactive); }

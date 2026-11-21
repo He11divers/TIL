@@ -28,7 +28,6 @@ export function FolderPosts({ github, name, folder, nodes }: {
       <header className={styles.header}>
         <p className={styles.author}>{name}의 TIL</p>
         <h1>{segments.at(-1) ?? "전체 글"}</h1>
-        <p>{files.length}개의 글{folder ? " · 하위 폴더 포함" : ""} · 작성일 오름차순</p>
       </header>
       {directories.length ? (
         <nav className={styles.folders} aria-label="하위 폴더">
