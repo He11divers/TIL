@@ -2,6 +2,9 @@ import type { TilFileNode } from "./types";
 import { compareTilPosts } from "./order.ts";
 
 export function getRecentTilFiles(files: readonly TilFileNode[]): TilFileNode[] {
-  // Select the latest five, then display them in the same order as the explorer.
-  return [...files].sort(compareTilPosts).slice(-5);
+  return [...files].sort((left, right) =>
+    right.date.localeCompare(left.date) ||
+    (right.time ?? "00:00").localeCompare(left.time ?? "00:00") ||
+    compareTilPosts(left, right)
+  ).slice(0, 5);
 }
