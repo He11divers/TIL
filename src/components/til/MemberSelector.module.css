@@ -26,16 +26,6 @@
   background: var(--surface-interactive);
 }
 
-.brand {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.8rem;
-  font-weight: 750;
-  letter-spacing: -0.04em;
-}
-
 .trigger:focus-visible {
   outline-offset: 2px;
 }

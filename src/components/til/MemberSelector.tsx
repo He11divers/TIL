@@ -172,9 +172,10 @@ export function MemberSelector({ members, currentGithub, disabled }: MemberSelec
       >
         {currentMember ? (
           <>
+            <Image className={styles.avatar} src={buildGithubAvatarUrl(currentMember.github)} alt="" width={32} height={32} unoptimized />
             <span className={styles.memberText} id={`${id}-current`}>
-              <span className={styles.brand}>He11divers TIL</span>
-              <span className={styles.github}>{currentMember.name} · @{currentMember.github}</span>
+              <span className={styles.name}>{currentMember.name}</span>
+              <span className={styles.github}>@{currentMember.github}</span>
             </span>
           </>
         ) : <span id={`${id}-current`}>스터디원 선택</span>}
