@@ -5,6 +5,7 @@ import path from "node:path";
 
 import { parseTilMarkdown } from "./parser";
 import { compareTilPosts } from "./order";
+import { getFirstTilImage } from "./preview";
 import type { TilTreeNode } from "./types";
 
 function compareNodes(left: TilTreeNode, right: TilTreeNode) {
@@ -26,6 +27,7 @@ function compareNodes(left: TilTreeNode, right: TilTreeNode) {
 async function scanDirectory(
   directory: string,
   relativeDirectory: string,
+  github: string,
 ): Promise<TilTreeNode[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const nodes: TilTreeNode[] = [];
@@ -39,19 +41,21 @@ async function scanDirectory(
         type: "directory",
         name: entry.name,
         path: relativePath,
-        children: await scanDirectory(entryPath, relativePath),
+        children: await scanDirectory(entryPath, relativePath, github),
       });
       continue;
     }
 
     if (entry.isFile() && path.extname(entry.name) === ".md") {
       const source = await readFile(entryPath, "utf8");
-      const { frontmatter } = parseTilMarkdown(source, entryPath);
+      const { frontmatter, content } = parseTilMarkdown(source, entryPath);
+      const previewImage = getFirstTilImage(content, github, relativePath);
 
       nodes.push({
         type: "file",
         name: entry.name,
         title: frontmatter.title,
+        ...(previewImage ? { previewImage } : {}),
         ...(frontmatter.description === undefined ? {} : { description: frontmatter.description }),
         date: frontmatter.date,
         ...(frontmatter.time === undefined ? {} : { time: frontmatter.time }),
@@ -64,6 +68,6 @@ async function scanDirectory(
   return nodes.sort(compareNodes);
 }
 
-export function scanTilTree(directory: string): Promise<TilTreeNode[]> {
-  return scanDirectory(directory, "");
+export function scanTilTree(directory: string, github: string): Promise<TilTreeNode[]> {
+  return scanDirectory(directory, "", github);
 }

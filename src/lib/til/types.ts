@@ -10,6 +10,7 @@ export type TilFileNode = {
   name: string;
   title: string;
   description?: string;
+  previewImage?: { src: string; alt: string };
   date: string;
   time?: string;
   path: string;
