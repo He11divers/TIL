@@ -70,9 +70,9 @@ export default async function TilPage({ params }: TilPageProps) {
                   ) : null}
                   <time
                     className={styles.postDate}
-                    dateTime={post.date}
+                    dateTime={post.time ? `${post.date}T${post.time}` : post.date}
                   >
-                    {post.date}
+                    {post.date}{post.time ? ` ${post.time}` : ""}
                   </time>
                 </header>
 

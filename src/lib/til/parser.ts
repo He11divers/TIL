@@ -85,11 +85,17 @@ function parseTilFrontmatter(
     );
   }
 
+  const frontmatter: TilFrontmatter = { title, date: fields.date };
+
+  if (fields.time !== undefined) {
+    if (typeof fields.time !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(fields.time)) {
+      return frontmatterError('"time" must use HH:mm format (00:00–23:59).', sourcePath);
+    }
+    frontmatter.time = fields.time;
+  }
+
   if (fields.description === undefined) {
-    return {
-      title,
-      date: fields.date,
-    };
+    return frontmatter;
   }
 
   if (typeof fields.description !== "string") {
@@ -106,8 +112,7 @@ function parseTilFrontmatter(
   }
 
   return {
-    title,
-    date: fields.date,
+    ...frontmatter,
     description,
   };
 }

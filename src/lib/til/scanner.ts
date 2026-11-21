@@ -4,11 +4,16 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 import { parseTilMarkdown } from "./parser";
+import { compareTilPosts } from "./order";
 import type { TilTreeNode } from "./types";
 
 function compareNodes(left: TilTreeNode, right: TilTreeNode) {
   if (left.type !== right.type) {
     return left.type === "directory" ? -1 : 1;
+  }
+
+  if (left.type === "file" && right.type === "file") {
+    return compareTilPosts(left, right);
   }
 
   if (left.name === right.name) {
@@ -48,6 +53,7 @@ async function scanDirectory(
         name: entry.name,
         title: frontmatter.title,
         date: frontmatter.date,
+        ...(frontmatter.time === undefined ? {} : { time: frontmatter.time }),
         path: relativePath,
         slug: relativePath.slice(0, -path.extname(relativePath).length),
       });

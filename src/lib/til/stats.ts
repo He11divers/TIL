@@ -58,7 +58,7 @@ async function createMemberTilSummary(
     github: member.github,
     name: member.name,
     totalPosts: posts.length,
-    recentPosts: posts.slice(0, recentPostLimit),
+    recentPosts: posts.slice(-recentPostLimit),
     contributions: aggregateContributions(posts),
   };
 }
