@@ -9,7 +9,10 @@ export type TilFileNode = {
   type: "file";
   name: string;
   title: string;
+  description?: string;
+  previewImage?: { src: string; alt: string };
   date: string;
+  time?: string;
   path: string;
   slug: string;
 };
@@ -19,6 +22,7 @@ export type TilTreeNode = TilDirectoryNode | TilFileNode;
 export type TilFrontmatter = {
   title: string;
   date: string;
+  time?: string;
   description?: string;
 };
 
@@ -32,6 +36,7 @@ export type TilPost = {
   title: string;
   description?: string;
   date: string;
+  time?: string;
   path: string;
   slug: string;
 };

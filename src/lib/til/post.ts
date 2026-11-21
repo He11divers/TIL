@@ -37,6 +37,7 @@ export async function getPost(
       ? {}
       : { description: frontmatter.description }),
     date: frontmatter.date,
+    ...(frontmatter.time === undefined ? {} : { time: frontmatter.time }),
     path: file.path,
     slug: file.slug,
     content,

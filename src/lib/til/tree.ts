@@ -24,6 +24,6 @@ export async function getMemberTree(github: string) {
   return {
     github: member.github,
     name: member.name,
-    children: await scanTilTree(memberDirectory),
+    children: await scanTilTree(memberDirectory, member.github),
   };
 }

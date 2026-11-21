@@ -12,12 +12,13 @@ import {
 
 import type { TilFileNode, TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
-import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
 import { buildGithubAvatarUrl, buildGithubHref } from "@/src/lib/github";
-import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
+import { TilDateBadge } from "./TilDateBadge";
 
 import styles from "./TilSidebar.module.css";
 import { MemberSelector } from "./MemberSelector";
+import { buildFolderHref, buildPostHref } from "@/src/lib/til/navigation";
+import { countFolderPosts } from "@/src/lib/til/folders";
 
 type MemberOption = {
   name: string;
@@ -30,13 +31,14 @@ type TilSidebarProps = {
   tree: TilTreeNode[];
   recentFiles: TilFileNode[];
   activeSlug?: string;
+  activeFolder: string;
 };
 
 type TilTreeProps = {
   nodes: TilTreeNode[];
   currentGithub: string;
   activeSlug?: string;
-  today: string | null;
+  activeFolder: string;
   expandedPaths: Set<string>;
   onToggleDirectory: (path: string) => void;
   onSelectFile: () => void;
@@ -87,19 +89,6 @@ function mergeExpandedPaths(
   return nextPaths;
 }
 
-function buildMemberHref(github: string) {
-  return `/til/${encodeURIComponent(github)}`;
-}
-
-function buildPostHref(github: string, slug: string) {
-  const encodedSlug = slug
-    .split("/")
-    .map((segment) => encodeURIComponent(segment))
-    .join("/");
-
-  return `${buildMemberHref(github)}/${encodedSlug}`;
-}
-
 function getDepthStyle(depth: number): CSSProperties {
   return {
     "--til-tree-indent": `${0.625 + depth * 0.875}rem`,
@@ -110,7 +99,7 @@ function TilTree({
   nodes,
   currentGithub,
   activeSlug,
-  today,
+  activeFolder,
   expandedPaths,
   onToggleDirectory,
   onSelectFile,
@@ -124,26 +113,32 @@ function TilTree({
 
           return (
             <li key={`directory:${node.path}`}>
+              <div className={styles.directoryRow} style={getDepthStyle(depth)}>
               <button
                 className={styles.directoryButton}
-                style={getDepthStyle(depth)}
                 type="button"
-                title={node.name}
+                aria-label={`${node.name} ${isExpanded ? "접기" : "펼치기"}`}
                 aria-expanded={isExpanded}
                 onClick={() => onToggleDirectory(node.path)}
               >
                 <span className={styles.chevron} aria-hidden="true">
                   {isExpanded ? "▾" : "▸"}
                 </span>
-                <span className={styles.nodeName}>{node.name}</span>
               </button>
+              <Link className={`${styles.directoryLink} ${node.path === activeFolder ? styles.activeFile : ""}`}
+                href={buildFolderHref(currentGithub, node.path)}
+                aria-current={node.path === activeFolder && !activeSlug ? "page" : undefined}
+                onNavigate={onSelectFile} title={`${node.name} (${countFolderPosts(node.children)})`}>
+                <span className={styles.nodeName}>{node.name} ({countFolderPosts(node.children)})</span>
+              </Link>
+              </div>
 
               {isExpanded ? (
                 <TilTree
                   nodes={node.children}
                   currentGithub={currentGithub}
                   activeSlug={activeSlug}
-                  today={today}
+                  activeFolder={activeFolder}
                   expandedPaths={expandedPaths}
                   onToggleDirectory={onToggleDirectory}
                   onSelectFile={onSelectFile}
@@ -154,33 +149,7 @@ function TilTree({
           );
         }
 
-        const isActive = node.slug === activeSlug;
-
-        return (
-          <li key={`file:${node.path}`}>
-            <Link
-              className={`${styles.fileLink} ${isActive ? styles.activeFile : ""}`}
-              style={getDepthStyle(depth)}
-              href={buildPostHref(currentGithub, node.slug)}
-              title={node.title}
-              aria-current={isActive ? "page" : undefined}
-              onNavigate={onSelectFile}
-            >
-              <span className={styles.fileMarker} aria-hidden="true">
-                {isActive ? "●" : ""}
-              </span>
-              <time
-                className={styles.fileDate}
-                dateTime={node.date}
-                data-recency={today ? getTilDateRecency(node.date, today) : 0}
-                title={node.date}
-              >
-                {formatTilDate(node.date)}
-              </time>
-              <span className={styles.nodeName}>{node.title}</span>
-            </Link>
-          </li>
-        );
+        return null;
       })}
     </ul>
   );
@@ -192,8 +161,8 @@ export function TilSidebar({
   tree,
   recentFiles,
   activeSlug,
+  activeFolder,
 }: TilSidebarProps) {
-  const today = useLocalCalendarDate();
   const currentMember = members.find(
     (member) => member.github === currentGithub,
   );
@@ -202,8 +171,11 @@ export function TilSidebar({
     [activeSlug, tree],
   );
   const activeAncestorPaths = activeFile?.ancestors;
+  const folderAncestorPaths = useMemo(() => activeFolder
+    ? activeFolder.split("/").map((_, index, parts) => parts.slice(0, index + 1).join("/"))
+    : [], [activeFolder]);
   const [expandedPaths, setExpandedPaths] = useState(
-    () => new Set(activeAncestorPaths),
+    () => new Set([...(activeAncestorPaths ?? []), ...folderAncestorPaths]),
   );
   const [isExplorerOpen, setIsExplorerOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -211,7 +183,7 @@ export function TilSidebar({
 
   useEffect(() => {
     explorerDialogRef.current?.close();
-  }, [activeSlug]);
+  }, [activeSlug, activeFolder]);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia("(min-width: 56rem)");
@@ -227,16 +199,17 @@ export function TilSidebar({
   }, []);
 
   useEffect(() => {
-    if (!activeAncestorPaths?.length) {
+    const requiredPaths = [...(activeAncestorPaths ?? []), ...folderAncestorPaths];
+    if (!requiredPaths.length) {
       return;
     }
 
     // Route changes intentionally add to user-controlled expansion state.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setExpandedPaths((currentPaths) =>
-      mergeExpandedPaths(currentPaths, activeAncestorPaths),
+      mergeExpandedPaths(currentPaths, requiredPaths),
     );
-  }, [activeAncestorPaths]);
+  }, [activeAncestorPaths, folderAncestorPaths]);
 
   function openExplorer() {
     explorerDialogRef.current?.showModal();
@@ -266,7 +239,7 @@ export function TilSidebar({
       nodes={tree}
       currentGithub={currentGithub}
       activeSlug={activeSlug}
-      today={today}
+      activeFolder={activeFolder}
       expandedPaths={expandedPaths}
       onToggleDirectory={toggleDirectory}
       onSelectFile={closeExplorer}
@@ -295,8 +268,10 @@ export function TilSidebar({
             height={40}
             priority
           />
-          <span>He11divers TIL</span>
         </Link>
+        <div className={styles.headerMember}>
+          <MemberSelector members={members} currentGithub={currentGithub} disabled={!isSidebarOpen} />
+        </div>
         <button
           className={styles.sidebarToggle}
           type="button"
@@ -343,12 +318,6 @@ export function TilSidebar({
         inert={!isSidebarOpen}
       >
         <div className={styles.sidebarContentInner}>
-          <MemberSelector
-            members={members}
-            currentGithub={currentGithub}
-            disabled={!isSidebarOpen}
-          />
-
           <section
             className={styles.recentPosts}
             aria-labelledby="til-recent-posts-title"
@@ -367,13 +336,7 @@ export function TilSidebar({
                       aria-current={file.slug === activeSlug ? "page" : undefined}
                       onNavigate={closeExplorer}
                     >
-                      <time
-                        className={styles.fileDate}
-                        dateTime={file.date}
-                        data-recency={today ? getTilDateRecency(file.date, today) : 0}
-                      >
-                        {formatTilDate(file.date)}
-                      </time>
+                      <TilDateBadge date={file.date} time={file.time} />
                       <span className={styles.nodeName}>{file.title}</span>
                     </Link>
                   </li>
@@ -389,14 +352,14 @@ export function TilSidebar({
             <button
               className={styles.explorerTrigger}
               type="button"
-              aria-label={`TIL 파일 선택: ${activeFile?.title ?? "파일을 선택하세요"}`}
+              aria-label={`TIL 파일 선택: ${activeFile?.title ?? (activeFolder || "전체 글")}`}
               aria-haspopup="dialog"
               aria-expanded={isExplorerOpen}
               aria-controls="til-file-dialog"
               onClick={openExplorer}
             >
               <span className={styles.nodeName}>
-                {activeFile?.title ?? "파일을 선택하세요"}
+                {activeFile?.title ?? (activeFolder || "전체 글")}
               </span>
               <span className={styles.chevron} aria-hidden="true">▾</span>
             </button>
@@ -404,7 +367,13 @@ export function TilSidebar({
 
           <nav className={styles.explorer} aria-label="TIL files">
             <p className={styles.explorerLabel}>목록</p>
-            <div className={styles.treeViewport}>{fileTree}</div>
+            <div className={styles.treeViewport}>
+              <Link className={`${styles.directoryLink} ${!activeSlug && !activeFolder ? styles.activeFile : ""}`}
+                href={buildFolderHref(currentGithub)} aria-current={!activeSlug && !activeFolder ? "page" : undefined}>
+                전체 글
+              </Link>
+              {fileTree}
+            </div>
           </nav>
         </div>
       </div>
@@ -436,6 +405,7 @@ export function TilSidebar({
             </button>
           </header>
           <nav className={styles.treeViewport} aria-label="TIL files">
+            <Link className={styles.directoryLink} href={buildFolderHref(currentGithub)} onNavigate={closeExplorer}>전체 글</Link>
             {fileTree}
           </nav>
         </div>

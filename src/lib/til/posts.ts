@@ -5,6 +5,7 @@ import path from "node:path";
 
 import { study } from "../../../study.config";
 import { parseTilMarkdown } from "./parser";
+import { compareTilPosts } from "./order";
 import { flattenTilFiles, getMemberTree } from "./tree";
 import type { TilPost } from "./types";
 
@@ -17,13 +18,11 @@ function compareText(left: string, right: string) {
 }
 
 function compareMemberPosts(left: TilPost, right: TilPost) {
-  const dateOrder = compareText(right.date, left.date);
-
-  return dateOrder || compareText(left.path, right.path);
+  return compareTilPosts(left, right);
 }
 
 function compareAllPosts(left: TilPost, right: TilPost) {
-  const dateOrder = compareText(right.date, left.date);
+  const dateOrder = compareTilPosts(left, right);
 
   if (dateOrder) {
     return dateOrder;
@@ -57,6 +56,7 @@ export async function getMemberPosts(
           ? {}
           : { description: frontmatter.description }),
         date: frontmatter.date,
+        ...(frontmatter.time === undefined ? {} : { time: frontmatter.time }),
         path: file.path,
         slug: file.slug,
       };

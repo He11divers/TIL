@@ -41,6 +41,7 @@ export function MemberSelector({ members, currentGithub, disabled }: MemberSelec
     if (!trigger || !menu) return;
 
     const rect = trigger.getBoundingClientRect();
+    const width = Math.min(Math.max(rect.width, 240), window.innerWidth - 16);
     const below = window.innerHeight - rect.bottom - 14;
     const above = rect.top - 14;
     const showBelow = below >= Math.min(160, above);
@@ -48,9 +49,9 @@ export function MemberSelector({ members, currentGithub, disabled }: MemberSelec
     const height = Math.min(maxHeight, menu.scrollHeight + 2);
 
     setPosition({
-      left: Math.max(8, Math.min(rect.left, window.innerWidth - rect.width - 8)),
+      left: Math.max(8, Math.min(rect.left, window.innerWidth - width - 8)),
       top: showBelow ? rect.bottom + 6 : Math.max(8, rect.top - height - 6),
-      width: rect.width,
+      width,
       maxHeight,
     });
   }, []);
@@ -153,16 +154,14 @@ export function MemberSelector({ members, currentGithub, disabled }: MemberSelec
 
   return (
     <div className={styles.selector}>
-      <label className={styles.label} id={`${id}-label`} htmlFor={`${id}-trigger`}>
-        스터디원
-      </label>
       <button
         ref={triggerRef}
         className={styles.trigger}
         id={`${id}-trigger`}
         type="button"
         role="combobox"
-        aria-labelledby={`${id}-label ${id}-current`}
+        aria-label={`스터디원 선택: ${currentMember?.name ?? "선택 없음"} @${currentGithub}`}
+        title={`He11divers TIL · ${currentMember?.name ?? ""} @${currentGithub}`}
         aria-haspopup="listbox"
         aria-controls={listId}
         aria-expanded={isOpen}
