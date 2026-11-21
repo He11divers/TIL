@@ -299,8 +299,10 @@ export function TilSidebar({
             height={40}
             priority
           />
-          <span>He11divers TIL</span>
         </Link>
+        <div className={styles.headerMember}>
+          <MemberSelector members={members} currentGithub={currentGithub} disabled={!isSidebarOpen} />
+        </div>
         <button
           className={styles.sidebarToggle}
           type="button"
@@ -347,12 +349,6 @@ export function TilSidebar({
         inert={!isSidebarOpen}
       >
         <div className={styles.sidebarContentInner}>
-          <MemberSelector
-            members={members}
-            currentGithub={currentGithub}
-            disabled={!isSidebarOpen}
-          />
-
           <section
             className={styles.recentPosts}
             aria-labelledby="til-recent-posts-title"
@@ -393,7 +389,7 @@ export function TilSidebar({
             <button
               className={styles.explorerTrigger}
               type="button"
-              aria-label={`TIL 파일 선택: ${activeFile?.title ?? "파일을 선택하세요"}`}
+              aria-label={`TIL 파일 선택: ${activeFile?.title ?? (activeFolder || "전체 글")}`}
               aria-haspopup="dialog"
               aria-expanded={isExplorerOpen}
               aria-controls="til-file-dialog"

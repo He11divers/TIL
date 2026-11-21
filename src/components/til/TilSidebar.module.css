@@ -35,6 +35,9 @@
   gap: 0.5rem;
 }
 
+.headerMember { min-width: 0; flex: 1; }
+.sidebarTitle { flex: none; }
+
 .sidebarTitle span {
   min-width: 0;
   overflow: hidden;
@@ -44,7 +47,7 @@
 
 .sidebarToggle {
   display: grid;
-  width: 2.75rem;
+  width: 2rem;
   height: 2.75rem;
   flex: none;
   place-items: center;
@@ -480,7 +483,7 @@
     gap: 1rem;
   }
 
-  .sidebar[data-collapsed="true"] .sidebarTitle span {
+  .sidebar[data-collapsed="true"] .headerMember {
     display: none;
   }
 
