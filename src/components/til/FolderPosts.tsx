@@ -48,7 +48,6 @@ export function FolderPosts({ github, name, folder, nodes }: {
                 <h2>{file.title}</h2>
                 {file.description ? <p>{file.description}</p> : null}
                 <span className={styles.path}>{file.path.split("/").slice(0, -1).join(" / ") || "루트"}</span>
-                <span className={styles.read}>글 읽기 <span aria-hidden="true">→</span></span>
               </Link>
             </li>
           ))}
