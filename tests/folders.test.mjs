@@ -22,7 +22,7 @@ test("finds exact folders, including nested and empty folders, rejecting unknown
 
 test("includes descendants only, with global chronological order and no tree mutation", () => {
   const before = JSON.stringify(tree);
-  assert.deepEqual(getFolderFiles(findTilDirectory(tree, "A").children).map(f => f.title), ["먼저", "나중"]);
+  assert.deepEqual(getFolderFiles(findTilDirectory(tree, "A").children).map(f => f.title), ["나중", "먼저"]);
   assert.equal(getFolderFiles(tree).length, 3);
   assert.equal(JSON.stringify(tree), before);
 });

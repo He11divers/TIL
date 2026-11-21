@@ -10,7 +10,7 @@ function file(title, date = "2026-10-17", time, path = `${title}.md`) {
 
 test("orders by date, optional time, Korean title, then path", () => {
   const files = [file("하늘", "2026-10-17", "09:00"), file("나무"), file("가방"), file("먼저", "2025-12-31", "23:59"), file("아침", "2026-10-17", "08:00")];
-  assert.deepEqual(files.sort(compareTilPosts).map(f => f.title), ["먼저", "가방", "나무", "아침", "하늘"]);
+  assert.deepEqual(files.sort(compareTilPosts).map(f => f.title), ["하늘", "아침", "가방", "나무", "먼저"]);
 });
 
 test("uses title order for equal timestamps before selecting the latest five without mutation", () => {
@@ -21,10 +21,10 @@ test("uses title order for equal timestamps before selecting the latest five wit
   assert.deepEqual(getRecentTilFiles([file("하나")]), [file("하나")]);
 });
 
-test("recent posts use newest date and time first, keeping folder lists ascending", () => {
+test("recent posts and folder lists both use newest date and time first", () => {
   const files = [file("과거", "2025-12-31", "23:59"), file("자정", "2026-01-01"), file("오전", "2026-01-01", "09:00"), file("저녁", "2026-01-01", "21:00")];
   assert.deepEqual(getRecentTilFiles(files).map(f => f.title), ["저녁", "오전", "자정", "과거"]);
-  assert.deepEqual([...files].sort(compareTilPosts).map(f => f.title), ["과거", "자정", "오전", "저녁"]);
+  assert.deepEqual([...files].sort(compareTilPosts).map(f => f.title), ["저녁", "오전", "자정", "과거"]);
 });
 
 test("uses path to break equal titles and missing time equals midnight", () => {
