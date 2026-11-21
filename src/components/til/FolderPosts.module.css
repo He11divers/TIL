@@ -17,6 +17,7 @@
 .header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin: 2.5rem 0 1.75rem; }
 .heading { min-width: 0; flex: 1; }
 .filterStatus { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--foreground-muted); font-size: 0.8rem; }
+.filterStatus:has(button) { margin-bottom: 1rem; }
 .filterStatus p:empty { display: none; }
 .filterStatus button { border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface-subtle); color: var(--foreground); padding: 0.4rem 0.6rem; cursor: pointer; }
 .filterStatus button:hover { background: var(--surface-interactive); }
