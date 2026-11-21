@@ -12,9 +12,8 @@ import {
 
 import type { TilFileNode, TilTreeNode } from "@/src/lib/til/types";
 import siteIcon from "@/app/icon.png";
-import { useLocalCalendarDate } from "@/src/hooks/use-local-calendar-date";
 import { buildGithubAvatarUrl, buildGithubHref } from "@/src/lib/github";
-import { formatTilDate, getTilDateRecency } from "@/src/lib/til/date";
+import { TilDateBadge } from "./TilDateBadge";
 
 import styles from "./TilSidebar.module.css";
 import { MemberSelector } from "./MemberSelector";
@@ -39,7 +38,6 @@ type TilTreeProps = {
   currentGithub: string;
   activeSlug?: string;
   activeFolder: string;
-  today: string | null;
   expandedPaths: Set<string>;
   onToggleDirectory: (path: string) => void;
   onSelectFile: () => void;
@@ -101,7 +99,6 @@ function TilTree({
   currentGithub,
   activeSlug,
   activeFolder,
-  today,
   expandedPaths,
   onToggleDirectory,
   onSelectFile,
@@ -141,7 +138,6 @@ function TilTree({
                   currentGithub={currentGithub}
                   activeSlug={activeSlug}
                   activeFolder={activeFolder}
-                  today={today}
                   expandedPaths={expandedPaths}
                   onToggleDirectory={onToggleDirectory}
                   onSelectFile={onSelectFile}
@@ -152,33 +148,7 @@ function TilTree({
           );
         }
 
-        const isActive = node.slug === activeSlug;
-
-        return (
-          <li key={`file:${node.path}`}>
-            <Link
-              className={`${styles.fileLink} ${isActive ? styles.activeFile : ""}`}
-              style={getDepthStyle(depth)}
-              href={buildPostHref(currentGithub, node.slug)}
-              title={node.title}
-              aria-current={isActive ? "page" : undefined}
-              onNavigate={onSelectFile}
-            >
-              <span className={styles.fileMarker} aria-hidden="true">
-                {isActive ? "●" : ""}
-              </span>
-              <time
-                className={styles.fileDate}
-                dateTime={node.date}
-                data-recency={today ? getTilDateRecency(node.date, today) : 0}
-                title={node.date}
-              >
-                {formatTilDate(node.date)}
-              </time>
-              <span className={styles.nodeName}>{node.title}</span>
-            </Link>
-          </li>
-        );
+        return null;
       })}
     </ul>
   );
@@ -192,7 +162,6 @@ export function TilSidebar({
   activeSlug,
   activeFolder,
 }: TilSidebarProps) {
-  const today = useLocalCalendarDate();
   const currentMember = members.find(
     (member) => member.github === currentGithub,
   );
@@ -270,7 +239,6 @@ export function TilSidebar({
       currentGithub={currentGithub}
       activeSlug={activeSlug}
       activeFolder={activeFolder}
-      today={today}
       expandedPaths={expandedPaths}
       onToggleDirectory={toggleDirectory}
       onSelectFile={closeExplorer}
@@ -367,13 +335,7 @@ export function TilSidebar({
                       aria-current={file.slug === activeSlug ? "page" : undefined}
                       onNavigate={closeExplorer}
                     >
-                      <time
-                        className={styles.fileDate}
-                        dateTime={file.date}
-                        data-recency={today ? getTilDateRecency(file.date, today) : 0}
-                      >
-                        {formatTilDate(file.date)}
-                      </time>
+                      <TilDateBadge date={file.date} time={file.time} />
                       <span className={styles.nodeName}>{file.title}</span>
                     </Link>
                   </li>

@@ -4,6 +4,7 @@ import { getFolderFiles } from "@/src/lib/til/folders";
 import { buildFolderHref, buildPostHref } from "@/src/lib/til/navigation";
 import type { TilTreeNode } from "@/src/lib/til/types";
 import styles from "./FolderPosts.module.css";
+import { TilDateBadge } from "./TilDateBadge";
 
 export function FolderPosts({ github, name, folder, nodes }: {
   github: string; name: string; folder: string; nodes: TilTreeNode[];
@@ -43,9 +44,7 @@ export function FolderPosts({ github, name, folder, nodes }: {
           {files.map(file => (
             <li key={file.path}>
               <Link className={styles.post} href={buildPostHref(github, file.slug)}>
-                <time dateTime={file.time ? `${file.date}T${file.time}` : file.date}>
-                  {file.date}{file.time ? ` ${file.time}` : ""}
-                </time>
+                <TilDateBadge date={file.date} time={file.time} />
                 <h2>{file.title}</h2>
                 {file.description ? <p>{file.description}</p> : null}
                 <span className={styles.path}>{file.path.split("/").slice(0, -1).join(" / ") || "루트"}</span>
