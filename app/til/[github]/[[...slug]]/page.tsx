@@ -1,4 +1,8 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { FolderPosts } from "@/src/components/til/FolderPosts";
+import { findTilDirectory } from "@/src/lib/til/folders";
+import { buildFolderHref } from "@/src/lib/til/navigation";
 
 import { MarkdownViewer } from "@/src/components/til/MarkdownViewer";
 import { TilSidebar } from "@/src/components/til/TilSidebar";
@@ -12,6 +16,7 @@ import { study } from "@/study.config";
 import styles from "./page.module.css";
 
 type TilPageProps = {
+  searchParams: Promise<{ folder?: string | string[] }>;
   params: Promise<{
     github: string;
     slug?: string[];
@@ -26,7 +31,7 @@ function decodeRouteSegment(segment: string) {
   }
 }
 
-export default async function TilPage({ params }: TilPageProps) {
+export default async function TilPage({ params, searchParams }: TilPageProps) {
   const { github, slug } = await params;
   const currentGithub = decodeRouteSegment(github);
   const memberTree = await getMemberTree(currentGithub);
@@ -44,6 +49,14 @@ export default async function TilPage({ params }: TilPageProps) {
     notFound();
   }
 
+  const requestedFolder = (await searchParams).folder;
+  if (!post && Array.isArray(requestedFolder)) notFound();
+  const activeFolder = post
+    ? post.path.split("/").slice(0, -1).join("/")
+    : typeof requestedFolder === "string" ? requestedFolder : "";
+  const directory = activeFolder ? findTilDirectory(memberTree.children, activeFolder) : null;
+  if (activeFolder && !directory) notFound();
+
   const headings = post ? getMarkdownHeadings(post.content) : [];
 
   return (
@@ -56,6 +69,7 @@ export default async function TilPage({ params }: TilPageProps) {
           tree={memberTree.children}
           recentFiles={getRecentTilFiles(flattenTilFiles(memberTree.children))}
           activeSlug={activeSlug}
+          activeFolder={activeFolder}
         />
 
         <section className={styles.content}>
@@ -63,6 +77,9 @@ export default async function TilPage({ params }: TilPageProps) {
             <div className={`${styles.readingLayout} ${headings.length ? styles.withToc : ""}`}>
               <article className={styles.article} id="til-post-content">
                 <header className={styles.postHeader}>
+                  <Link className={styles.backToFolder} href={buildFolderHref(currentGithub, activeFolder)}>
+                    ← {activeFolder.split("/").at(-1) || "전체 글"} 목록
+                  </Link>
                   <p className={styles.postLabel}>TIL Note</p>
                   <h1 className={styles.postTitle}>{post.title}</h1>
                   {post.description ? (
@@ -91,15 +108,8 @@ export default async function TilPage({ params }: TilPageProps) {
               />
             </div>
           ) : (
-            <div className={styles.emptyState}>
-              <div className={styles.emptyContent}>
-                <p className={styles.emptyLabel}>{memberTree.name}</p>
-                <h1 className={styles.emptyTitle}>TIL</h1>
-                <p className={styles.emptyDescription}>
-                  파일 목록에서 읽을 내용을 선택하세요.
-                </p>
-              </div>
-            </div>
+            <FolderPosts github={currentGithub} name={memberTree.name} folder={activeFolder}
+              nodes={directory?.children ?? memberTree.children} />
           )}
         </section>
       </div>

@@ -1,0 +1,32 @@
+.container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 4rem) 5rem;
+}
+
+.breadcrumb {
+  color: var(--foreground-muted);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.breadcrumb a { color: inherit; text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb a[aria-current] { color: var(--foreground); }
+.header { margin: 2.5rem 0 1.75rem; }
+.author { color: var(--person-name); font-size: 0.8rem; font-weight: 650; }
+.header h1 { margin: 0.6rem 0; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.04em; overflow-wrap: anywhere; }
+.header > p:last-child { color: var(--foreground-muted); font-size: 0.8rem; }
+.folders { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+.folders a { display: flex; align-items: center; gap: 0.7rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 0.6rem 0.85rem; color: var(--foreground-soft); font-size: 0.8rem; text-decoration: none; overflow-wrap: anywhere; }
+.folders a:hover { background: var(--surface-interactive); }
+.folders span { color: var(--foreground-muted); font-variant-numeric: tabular-nums; }
+.posts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.post { display: block; position: relative; border-bottom: 1px solid var(--border); padding: 1.75rem 0.75rem; color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+.post:hover { background: var(--surface-subtle); }
+.post time, .path { color: var(--foreground-muted); font-size: 0.75rem; }
+.post h2 { margin: 0.65rem 0; font-size: 1.2rem; letter-spacing: -0.025em; line-height: 1.5; }
+.post p { color: var(--foreground-muted); font-size: 0.9rem; line-height: 1.7; }
+.read { display: block; margin-top: 0.9rem; color: var(--accent); font-size: 0.8rem; }
+.empty { border-top: 1px solid var(--border); padding: 3rem 0; color: var(--foreground-muted); }

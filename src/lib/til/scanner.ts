@@ -52,6 +52,7 @@ async function scanDirectory(
         type: "file",
         name: entry.name,
         title: frontmatter.title,
+        ...(frontmatter.description === undefined ? {} : { description: frontmatter.description }),
         date: frontmatter.date,
         ...(frontmatter.time === undefined ? {} : { time: frontmatter.time }),
         path: relativePath,

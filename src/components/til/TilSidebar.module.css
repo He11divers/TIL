@@ -337,6 +337,35 @@
   cursor: pointer;
 }
 
+.directoryRow {
+  display: flex;
+  min-width: 0;
+  padding-left: var(--til-tree-indent);
+  align-items: center;
+}
+
+.directoryRow .directoryButton {
+  width: 1.5rem;
+  flex: none;
+  justify-content: center;
+  padding: 0.25rem 0;
+}
+
+.directoryLink {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.5rem;
+  color: var(--foreground-soft);
+  font-size: 0.8125rem;
+  font-weight: 620;
+  line-height: 1.2rem;
+  text-decoration: none;
+}
+
+.directoryLink:hover { background: var(--surface-interactive); }
+
 .directoryButton:hover,
 .fileLink:hover {
   background: var(--surface-interactive);

@@ -81,6 +81,16 @@
   text-transform: uppercase;
 }
 
+.backToFolder {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--foreground-muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.backToFolder:hover { color: var(--accent); }
+
 .postTitle {
   margin: 0;
   color: var(--foreground);
