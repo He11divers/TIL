@@ -18,6 +18,7 @@ import { TilDateBadge } from "./TilDateBadge";
 import styles from "./TilSidebar.module.css";
 import { MemberSelector } from "./MemberSelector";
 import { buildFolderHref, buildPostHref } from "@/src/lib/til/navigation";
+import { countFolderPosts } from "@/src/lib/til/folders";
 
 type MemberOption = {
   name: string;
@@ -127,8 +128,8 @@ function TilTree({
               <Link className={`${styles.directoryLink} ${node.path === activeFolder ? styles.activeFile : ""}`}
                 href={buildFolderHref(currentGithub, node.path)}
                 aria-current={node.path === activeFolder && !activeSlug ? "page" : undefined}
-                onNavigate={onSelectFile} title={node.name}>
-                <span className={styles.nodeName}>{node.name}</span>
+                onNavigate={onSelectFile} title={`${node.name} (${countFolderPosts(node.children)})`}>
+                <span className={styles.nodeName}>{node.name} ({countFolderPosts(node.children)})</span>
               </Link>
               </div>
 

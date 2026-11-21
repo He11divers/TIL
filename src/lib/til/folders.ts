@@ -1,6 +1,10 @@
 import { compareTilPosts } from "./order.ts";
 import type { TilDirectoryNode, TilFileNode, TilTreeNode } from "./types";
 
+export function countFolderPosts(nodes: readonly TilTreeNode[]): number {
+  return nodes.reduce((count, node) => count + (node.type === "file" ? 1 : countFolderPosts(node.children)), 0);
+}
+
 export function findTilDirectory(nodes: TilTreeNode[], path: string): TilDirectoryNode | null {
   for (const node of nodes) {
     if (node.type !== "directory") continue;

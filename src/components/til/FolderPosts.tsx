@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getFolderFiles } from "@/src/lib/til/folders";
+import { countFolderPosts, getFolderFiles } from "@/src/lib/til/folders";
 import { buildFolderHref, buildPostHref } from "@/src/lib/til/navigation";
 import type { TilTreeNode } from "@/src/lib/til/types";
 import styles from "./FolderPosts.module.css";
@@ -34,7 +34,7 @@ export function FolderPosts({ github, name, folder, nodes }: {
         <nav className={styles.folders} aria-label="하위 폴더">
           {directories.map(directory => (
             <Link key={directory.path} href={buildFolderHref(github, directory.path)}>
-              {directory.name}<span>{getFolderFiles(directory.children).length}</span>
+              {directory.name} <span>({countFolderPosts(directory.children)})</span>
             </Link>
           ))}
         </nav>
